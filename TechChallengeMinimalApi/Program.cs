@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -16,9 +17,7 @@ var configuration = new ConfigurationBuilder()
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.MapGet("/", () => "Hello World!");
-
-app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
+app.MapPost("/Upload", async (IFormFile formFile) =>
  {
     var connectionString = configuration.GetConnectionString("blobstorage");
     var containerName = "filescontainer";
@@ -30,7 +29,6 @@ app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
         // Lê a imagem do corpo da requisição        
         await formFile.CopyToAsync(memoryStream);
         var fileBytes = memoryStream.ToArray();
-        //var fileBytes = context.FileContents;
         // Cria um objeto CloudStorageAccount a partir da string de conexão
         var storageAccount = CloudStorageAccount.Parse(connectionString);
 
@@ -41,8 +39,8 @@ app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
         var container = blobClient.GetContainerReference(containerName);
         await container.CreateIfNotExistsAsync();
 
-        // Define o nome do blob a partir do nome do arquivo
-        var blobName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName);
+         // Define o nome do blob a partir do nome do arquivo
+         var blobName = Guid.NewGuid().ToString(); // + Path.GetExtension(formFile.FileName);
 
         // Faz upload do arquivo para o blob
         var blob = container.GetBlockBlobReference(blobName);
@@ -56,9 +54,41 @@ app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
     {
         return Results.NotFound(ex);
     }
-}).Accepts<FormFile>("multipart/form-data");
+}).Accepts<FormFile>("multipart/form-data").WithTags("FileManagement");
 
-app.MapGet("/GetSpecific", async (string blobName) => 
+app.MapGet("/GetSpecific", async (string blobName) =>
+{
+    string blobUrlWithSas = await GetBlobUrlWithSas(blobName, configuration);
+
+    return Results.Ok(blobUrlWithSas);
+}).WithName("GetSingle").WithTags("FileManagement");
+
+app.MapGet("/GetMany", async (string stringBlobNameList) =>
+{
+    try
+    {        
+        List<string> blobNameList = stringBlobNameList.Split(',').ToList();
+        var result = new Dictionary<string, string>();
+
+        foreach (string blobName in blobNameList)
+        {
+            string blobUrlWithSas = await GetBlobUrlWithSas(blobName, configuration);
+            if (!string.IsNullOrEmpty(blobUrlWithSas))
+            {
+                result.Add(blobName, blobUrlWithSas);
+            }
+        }
+        return Results.Ok(result);
+    } 
+    catch (Exception ex)
+    {
+        return Results.NotFound(ex);
+    }
+}).WithName("GetMany").WithTags("FileManagement");
+
+app.Run();
+
+static async Task<string> GetBlobUrlWithSas(string blobName, IConfigurationRoot configuration)
 {
     var containerName = "filescontainer";
     var connectionString = configuration.GetConnectionString("blobstorage");
@@ -70,10 +100,13 @@ app.MapGet("/GetSpecific", async (string blobName) =>
     // Cria o contêiner caso ele não exista
     var container = blobClient.GetContainerReference(containerName);
     await container.CreateIfNotExistsAsync();
+    
 
     // Cria a referencia do Blob
     var blob = container.GetBlobReference(blobName);
 
+    var checkIfExists = await blob.ExistsAsync();
+    if (!checkIfExists) return string.Empty; 
     // Obtém o SAS Token para o blob
     var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
     {
@@ -83,8 +116,5 @@ app.MapGet("/GetSpecific", async (string blobName) =>
 
     // Constrói a URL do blob com o SAS Token
     var blobUrlWithSas = blob.Uri + sasToken;
-
-    return Results.Ok(blobUrlWithSas); 
-});
-
-app.Run();
+    return blobUrlWithSas;
+}
