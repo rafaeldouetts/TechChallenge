@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallengeMinimalApi", ".\TechChallengeMinimalApi\TechChallengeMinimalApi.csproj", "{9572C203-3A49-4178-B2B6-8D2D69F445F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.StorageMinimalApi", "TechChallengeMinimalApi\TechChallenge.StorageMinimalApi.csproj", "{9572C203-3A49-4178-B2B6-8D2D69F445F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallengeApi", ".\TechChallangeApi\TechChallengeApi.csproj", "{5EB82060-06BA-42DA-B679-CB06D4420A5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallengeApi", "TechChallangeApi\TechChallengeApi.csproj", "{5EB82060-06BA-42DA-B679-CB06D4420A5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallengeWeb", ".\TechChallengeWeb\TechChallengeWeb.csproj", "{29F9845C-3D5A-4F54-8C6E-2EFC5DB3D786}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Identity", "TechChallenge.Identity\TechChallenge.Identity.csproj", "{18DE08F8-7AE9-4227-9105-BCD6EC098117}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{5EB82060-06BA-42DA-B679-CB06D4420A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EB82060-06BA-42DA-B679-CB06D4420A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EB82060-06BA-42DA-B679-CB06D4420A5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29F9845C-3D5A-4F54-8C6E-2EFC5DB3D786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29F9845C-3D5A-4F54-8C6E-2EFC5DB3D786}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29F9845C-3D5A-4F54-8C6E-2EFC5DB3D786}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29F9845C-3D5A-4F54-8C6E-2EFC5DB3D786}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
