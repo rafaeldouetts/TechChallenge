@@ -4,6 +4,9 @@ namespace TechChallengeWeb.Models
 {
     public class Publicacao
     {
+        public Publicacao()
+        {
+        }
         public Publicacao(string nome, Usuario usuario, string urlPerfil, Foto foto)
         {
             Nome = nome;
