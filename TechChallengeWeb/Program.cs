@@ -12,8 +12,9 @@ var connectionString = builder.Configuration.GetConnectionString("ConnectionStri
 builder.Services.AddDbContext<ApplicationContext>(opts => opts.UseSqlServer(connectionString));
 
 //Add Services
-builder.Services.AddTransient<IFotosRepository, FotosRepository>();
-builder.Services.AddTransient<IPublicacaoRepository, PublicacaoRepository>();
+builder.Services.AddScoped<IFotosRepository, FotosRepository>();
+builder.Services.AddScoped<IPublicacaoRepository, PublicacaoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 
 var app = builder.Build();
