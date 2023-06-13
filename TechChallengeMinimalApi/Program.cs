@@ -1,4 +1,4 @@
-using Microsoft.WindowsAzure.Storage;
+//using Microsoft.WindowsAzure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //app.MapGet("/", () => "Hello World!");
-
+/*
 app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
  {
     var connectionString = configuration.GetConnectionString("blobstorage");
@@ -51,5 +51,5 @@ app.MapPost("/upload", async (IFormFile formFile) => // (IFormFile file) =>
         Results.NotFound(ex);
     }
 }).Accepts<FormFile>("multipart/form-data");
-
+*/
 app.Run();

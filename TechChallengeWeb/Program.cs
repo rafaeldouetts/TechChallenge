@@ -1,7 +1,20 @@
+
+using Microsoft.EntityFrameworkCore;
+using TechChallengeWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Configurações DB
+var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+builder.Services.AddDbContext<ApplicationContext>(opts => opts.UseSqlServer(connectionString));
+
+//Add Services
+builder.Services.AddTransient<IFotosRepository, FotosRepository>();
+builder.Services.AddTransient<IPublicacaoRepository, PublicacaoRepository>();
+
 
 var app = builder.Build();
 
