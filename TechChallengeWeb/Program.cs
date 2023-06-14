@@ -4,18 +4,18 @@ using TechChallengeWeb.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 //Configurações DB
-var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
 builder.Services.AddDbContext<ApplicationContext>(opts => opts.UseSqlServer(connectionString));
 
 //Add Services
 builder.Services.AddScoped<IFotosRepository, FotosRepository>();
+builder.Services.AddScoped<IFotosRepository, FotosRepository>();
 builder.Services.AddScoped<IPublicacaoRepository, PublicacaoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

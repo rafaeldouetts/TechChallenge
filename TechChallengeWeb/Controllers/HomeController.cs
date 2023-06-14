@@ -9,20 +9,19 @@ namespace TechChallengeWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPublicacaoRepository _publicacaoRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public HomeController(ILogger<HomeController> logger, IPublicacaoRepository publicacaoRepository)
+        public HomeController(ILogger<HomeController> logger, IPublicacaoRepository publicacaoRepository, IUsuarioRepository usuarioRepository)
         {
             _logger = logger;
             _publicacaoRepository = publicacaoRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Publicacoes()
         {
-
-            Usuario usuario = new Usuario("Mateus", "mateus@email.com");
-            Foto foto = new Foto(true, "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
-            Publicacao publicacao = new Publicacao("Test publicacao", usuario, "www.com", foto);
+            Usuario usuario = _usuarioRepository.GetUsuarioById(1);
             IEnumerable<Publicacao> viewModel = _publicacaoRepository.GetPublicacoes(usuario);
             return View(viewModel);
 
