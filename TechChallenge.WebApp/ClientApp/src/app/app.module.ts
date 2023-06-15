@@ -17,6 +17,8 @@ import { CreateAcountComponent } from './pages/authentication/create-acount/crea
 import { AuthenticationComponent } from './pages/authentication/authentication/authentication.component';
 import { AuthGuard } from './pages/authentication/shared/auth.guard';
 import { localStorageService } from './shared/localStorageService';
+import { ErrorRequestInterceptor } from './pages/authentication/shared/Error.Interceptor';
+import { TokenInterceptor } from './pages/authentication/shared/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { localStorageService } from './shared/localStorageService';
     ]),
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ErrorRequestInterceptor,
+    TokenInterceptor
   ],
   providers: [ImagemRepository, localStorageService],
   bootstrap: [AppComponent]

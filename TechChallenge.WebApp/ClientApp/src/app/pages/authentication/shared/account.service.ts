@@ -8,11 +8,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AccountService {
-
   baseUrl = environment.baseUrl;
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
   
   constructor(private http: HttpClient) { }
@@ -25,5 +24,10 @@ export class AccountService {
   Cadastrar(formData): Observable<ResponseModel>
   {
     return this.http.post<ResponseModel>(`${this.baseUrl}/api/Authenticate/register`, formData, this.httpOptions);
+  }
+
+  BuscarUsuario() : Observable<any>
+  {
+    return this.http.get<any>(`${this.baseUrl}/api/Authenticate/authenticated`, this.httpOptions);
   }
 }
