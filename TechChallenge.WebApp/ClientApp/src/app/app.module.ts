@@ -44,16 +44,9 @@ import { localStorageService } from './shared/localStorageService';
     canActivate:[AuthGuard]
 
   },
-
-    {
-      path: '', 
-      component: CreateAcountComponent,
-      children:[
-        {path: '', redirectTo:'login', pathMatch: 'full'},
-        { path: 'login', component: LoginComponent },
-        { path: 'create-account', component: CreateAcountComponent },
-      ]
-    }
+    {path: '', redirectTo:'login', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent },
+    { path: 'create-account', component: CreateAcountComponent },
       
     ]),
     BrowserAnimationsModule,
