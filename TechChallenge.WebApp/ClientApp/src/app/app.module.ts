@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatIconModule, MatSnackBarModule } from '@angular/material';
 import { ImagemRepository } from './home/ImagemRepository';
 import { LoginComponent } from './pages/authentication/login/login.component';
 import { CreateAcountComponent } from './pages/authentication/create-acount/create-acount.component';
@@ -47,7 +47,7 @@ import { localStorageService } from './shared/localStorageService';
 
     {
       path: '', 
-      component: AuthenticationComponent,
+      component: CreateAcountComponent,
       children:[
         {path: '', redirectTo:'login', pathMatch: 'full'},
         { path: 'login', component: LoginComponent },
@@ -56,7 +56,9 @@ import { localStorageService } from './shared/localStorageService';
     }
       
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [ImagemRepository, localStorageService],
   bootstrap: [AppComponent]
