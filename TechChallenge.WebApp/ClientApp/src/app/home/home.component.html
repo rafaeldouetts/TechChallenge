@@ -1,0 +1,68 @@
+
+<div style="display: flex; justify-content: end;">
+<div class="search">
+  <input
+  style="border-radius: 25px;"
+    type="text"
+    [(ngModel)]="term"
+    class="searchTerm"
+    placeholder="search"
+  />
+</div>
+</div>
+
+<div style="width: 15%;" *ngFor="let imagem of imagens">
+
+  <mat-card style="margin-top: 20px;" class="example-card">
+
+    <mat-card-header style="    display: flex;
+    justify-content: flex-end; margin: 0px;">
+      <mat-card-title style="display: flex;
+      align-items: center;">
+        <img class="fotoPerfil" src="{{imagem.urlPerfil}}" alt="Girl in a jacket">
+        <span>{{imagem.usuario}}</span>
+      </mat-card-title>
+      
+      
+    
+    </mat-card-header>
+
+    <mat-card-content>
+      <img style="height: 100%;
+      width: 100%;" src="{{imagem.foto.url}}" alt="Girl in a jacket">
+    </mat-card-content>
+    
+    <span>{{imagem.nome}}</span>
+    
+    <div style="display: flex;
+    justify-content: flex-end;">
+      <span style="font-size: 10px;">{{imagem.dataEnvio | date: 'dd/MM/yyyy'}}</span>
+    </div>
+
+    <mat-card-actions style="display: flex;">
+      <button mat-button>LIKE</button>
+      <button *ngIf="imagem.foto.publica" mat-button style="background-color: green;">
+        <span style="color: white;">SHARE</span>
+      </button>
+      <button *ngIf="!imagem.foto.publica" mat-button style="background-color: blue;">
+        <span style="color: white;">SHARE</span>
+      </button>
+    </mat-card-actions>
+    
+  </mat-card>
+</div>
+
+
+
+
+<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+<div style="display: flex;
+justify-content: end;" class="file-upload">
+
+  Selecione uma imagem
+
+  <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+    <mat-icon>attach_file</mat-icon>
+  </button>
+</div>

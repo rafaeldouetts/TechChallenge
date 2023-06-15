@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.StorageMinima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallengeApi", "TechChallangeApi\TechChallengeApi.csproj", "{5EB82060-06BA-42DA-B679-CB06D4420A5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Identity", "TechChallenge.Identity\TechChallenge.Identity.csproj", "{18DE08F8-7AE9-4227-9105-BCD6EC098117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.Identity", "TechChallenge.Identity\TechChallenge.Identity.csproj", "{18DE08F8-7AE9-4227-9105-BCD6EC098117}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallengeWeb", "TechChallengeWeb\TechChallengeWeb.csproj", "{522B15D6-7292-4ACF-9CE1-E6276DD45545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18DE08F8-7AE9-4227-9105-BCD6EC098117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{522B15D6-7292-4ACF-9CE1-E6276DD45545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{522B15D6-7292-4ACF-9CE1-E6276DD45545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{522B15D6-7292-4ACF-9CE1-E6276DD45545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{522B15D6-7292-4ACF-9CE1-E6276DD45545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
