@@ -60,7 +60,6 @@ public class AuthenticateController : ControllerBase
         return Ok(new ResponseModel { Message = "Usuário criado com sucesso!" });
     }
 
-    //[AllowAnonymous]
     [HttpPost]
     [Route("login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
