@@ -11,14 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 //AddDbContext
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
 });
 
 //AddIdentity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationContext>()
     .AddDefaultTokenProviders();
-
 
 //AddAuthentication
 builder.Services.AddAuthentication(options =>
@@ -43,15 +42,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
-
-var politica = "CorsPolicy-public";
-
-builder.Services.AddCors(option => option.AddPolicy(politica, builder => builder.WithOrigins("http://localhost:4200", "https://localhost")
-
-	 .AllowAnyMethod()
-				.AllowAnyHeader()
-				.AllowCredentials()
-				.Build()));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -91,9 +81,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-//cors 
-app.UseCors("CorsPolicy-public");
 
 //Authentication & Authorization
 app.UseAuthentication();

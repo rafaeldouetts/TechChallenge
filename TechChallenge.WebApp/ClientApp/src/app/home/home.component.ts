@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagemRepository } from './ImagemRepository';
 import { publicacao } from './model/Imagem';
-import { AccountService } from '../pages/authentication/shared/account.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +12,7 @@ export class HomeComponent implements OnInit {
   fileName = '';
   imagens: publicacao[];
 
-  constructor(private homeRepository: ImagemRepository, private accountService: AccountService) { }
+  constructor(private homeRepository: ImagemRepository) { }
   
   ngOnInit(): void {
     this.carregar();
@@ -44,21 +43,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getUsuario()
-  {
-    this.accountService.BuscarUsuario()
-    .subscribe(result => {
-      debugger
-    },
-    err => {
-      debugger
-    })
-  }
-
 
   carregar(){
-    this.getUsuario();
-
     var result = this.homeRepository.carregar();
 
     this.imagens = result;
