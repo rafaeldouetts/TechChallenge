@@ -6,15 +6,6 @@ using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var politica = "CorsPolicy-public";
-
-builder.Services.AddCors(option => option.AddPolicy(politica, builder => builder.WithOrigins("http://localhost:4200", "https://localhost")
-
-	 .AllowAnyMethod()
-				.AllowAnyHeader()
-				.AllowCredentials()
-				.Build()));
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,9 +18,6 @@ var configuration = new ConfigurationBuilder()
 //Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
-
-//cors 
-app.UseCors("CorsPolicy-public");
 
 app.MapPost("/Upload", async (IFormFile formFile) =>
  {
