@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AccountService } from '../shared/account.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create-acount',
@@ -17,9 +18,10 @@ export class CreateAcountComponent implements OnInit {
     email: new FormControl('')
   });
   
-  constructor(private _snackBar: MatSnackBar, private router: Router, private accountService: AccountService) { }
+  constructor(private title:Title, private _snackBar: MatSnackBar, private router: Router, private accountService: AccountService) { }
 
   ngOnInit() {
+    this.title.setTitle("Cadastrar");
   }
 
   adicionar()

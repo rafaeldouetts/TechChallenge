@@ -57,7 +57,7 @@ import { TokenInterceptor } from './pages/authentication/shared/jwt.interceptor'
     ErrorRequestInterceptor,
     TokenInterceptor
   ],
-  providers: [ImagemRepository, localStorageService],
+  providers: [localStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

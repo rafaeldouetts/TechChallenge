@@ -1,4 +1,4 @@
-
+<!-- 
 <div style="display: flex; justify-content: end;">
 <div class="search">
   <input
@@ -55,7 +55,7 @@
 
 
 
-<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+<input type="file" class="file-input" (change)="adicionar($event)" #fileUpload>
 
 <div style="display: flex;
 justify-content: end;" class="file-upload">
@@ -65,4 +65,10 @@ justify-content: end;" class="file-upload">
   <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
     <mat-icon>attach_file</mat-icon>
   </button>
-</div>
+</div> -->
+
+
+
+<input type="file" (change)="selectFile($event)" class="form-control">
+        <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
+        <input type="submit" (click)="uploadFile()" class="btn btn-success" value="Enviar">

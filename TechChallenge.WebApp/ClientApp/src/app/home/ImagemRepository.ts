@@ -1,16 +1,23 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { foto, publicacao } from "./model/Imagem";
+import { environment } from "src/environments/environment";
 
 export class ImagemRepository {
  
-    constructor() {}
+    constructor(private http: HttpClient) { }
+
+    baseUrl = environment.minimalUrl;
+
+    httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
 
     adicionar(formData) : Observable<any>
     {
         // return this.http.post("/api/thumbnail-upload", formData);
 
-        return ;
+        return this.http.post<any>(`${this.baseUrl}/Upload`, formData, this.httpOptions);
     }
 
     // carregar(): Observable<imagem>

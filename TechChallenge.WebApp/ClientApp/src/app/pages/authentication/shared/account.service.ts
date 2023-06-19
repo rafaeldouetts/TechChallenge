@@ -9,10 +9,21 @@ import { environment } from 'src/environments/environment';
 })
 export class AccountService {
   baseUrl = environment.baseUrl;
+  minimalUrl = environment.minimalUrl;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
+  httpOptionsImage = {
+    headers: new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' })
+  };
+
+  // headers =
+  // {
+  //   headers:new HttpHeaders(' Content-Disposition ', 'multipart/form-data')
+
+  // } 
   
   constructor(private http: HttpClient) { }
 
@@ -29,5 +40,17 @@ export class AccountService {
   BuscarUsuario() : Observable<any>
   {
     return this.http.get<any>(`${this.baseUrl}/api/Authenticate/authenticated`, this.httpOptions);
+  }
+
+  adicionarFoto(file:File) :  Observable<any> 
+  {
+    const form: FormData = new FormData();
+    console.log(file.name);
+    console.log(file);
+    form.append('formFile', file);
+
+   
+
+    return this.http.post<any>(`${this.minimalUrl}/Upload`, form, this.httpOptionsImage);
   }
 }
