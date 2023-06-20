@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Reflection.Metadata;
@@ -21,8 +22,9 @@ app.UseSwaggerUI();
 
 app.MapPost("/Upload", async (IFormFile formFile) =>
  {
-    var connectionString = configuration.GetConnectionString("blobstorage");
-    var containerName = "filescontainer";
+     var connectionString = configuration.GetConnectionString("blobstorage");
+     //var containerName = "filescontainer";
+     var containerName = "fotoschallenge";
 
     try
     {
@@ -39,7 +41,7 @@ app.MapPost("/Upload", async (IFormFile formFile) =>
 
         // Cria o contêiner caso ele não exista
         var container = blobClient.GetContainerReference(containerName);
-        await container.CreateIfNotExistsAsync();
+        //await container.CreateIfNotExistsAsync();
 
          // Define o nome do blob a partir do nome do arquivo
          var blobName = Guid.NewGuid().ToString(); // + Path.GetExtension(formFile.FileName);
@@ -49,7 +51,7 @@ app.MapPost("/Upload", async (IFormFile formFile) =>
         await blob.UploadFromByteArrayAsync(fileBytes, 0, fileBytes.Length);
 
          // Obtém a URL de acesso ao blob
-         //var blobUrl = blob.Uri.ToString();
+         var blobUrl = blob.Uri.ToString();
          return Results.Ok(blobName);
     }
     catch (Exception ex)
@@ -92,7 +94,7 @@ app.Run();
 
 static async Task<string> GetBlobUrlWithSas(string blobName, IConfigurationRoot configuration)
 {
-    var containerName = "filescontainer";
+    var containerName = "fotoschallenge";
     var connectionString = configuration.GetConnectionString("blobstorage");
     var storageAccount = CloudStorageAccount.Parse(connectionString);
 
@@ -101,22 +103,24 @@ static async Task<string> GetBlobUrlWithSas(string blobName, IConfigurationRoot 
 
     // Cria o contêiner caso ele não exista
     var container = blobClient.GetContainerReference(containerName);
-    await container.CreateIfNotExistsAsync();
+    //await container.CreateIfNotExistsAsync();
     
 
     // Cria a referencia do Blob
     var blob = container.GetBlobReference(blobName);
 
     var checkIfExists = await blob.ExistsAsync();
-    if (!checkIfExists) return string.Empty; 
+    if (!checkIfExists) return string.Empty;
+
     // Obtém o SAS Token para o blob
-    var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
-    {
-        SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(1), // Define o tempo de expiração do SAS Token
-        Permissions = SharedAccessBlobPermissions.Read // Define as permissões do SAS Token (somente leitura neste caso)
-    });
+    //var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
+    //{
+    //    SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(1), // Define o tempo de expiração do SAS Token
+    //    Permissions = SharedAccessBlobPermissions.Read // Define as permissões do SAS Token (somente leitura neste caso)
+    //});
+    var sasToken = "sp=racwdl&st=2023-06-18T13:08:08Z&se=2023-06-23T21:08:08Z&spr=https&sv=2022-11-02&sr=c&sig=4njFIKcB7Ide2qD7voG%2ForlDZsF70qm51FYLOKIktGo%3D";
 
     // Constrói a URL do blob com o SAS Token
-    var blobUrlWithSas = blob.Uri + sasToken;
+    var blobUrlWithSas = blob.Uri + "?" + sasToken;
     return blobUrlWithSas;
 }

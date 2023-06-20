@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { localStorageService } from 'src/app/shared/localStorageService';
-import { AccountService } from '../shared/account.service';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-authentication',
@@ -12,29 +9,24 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AuthenticationComponent implements OnInit {
 
-  form = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl(''),
-  });
-
-  constructor(private _snackBar: MatSnackBar, private router: Router, private localStorageService: localStorageService, private accountService: AccountService) { }
+  constructor(private router: Router, private localStorageService: localStorageService) { }
 
   ngOnInit() {
   }
 
-  adicionar()
-  {
-    this.accountService.logar(this.form.value).subscribe(result => {
-      this.localStorageService.setToken(result.data);
-      this.router.navigate([''])
-    },
-    err =>{
-      this._snackBar.open('Usuario ou senha invalida');
-    });
+  onSubmit(){
+    debugger
   }
 
-  cadastrar()
+  adicionar()
   {
-    this.router.navigate(['create-account']);
+    debugger
+
+    //logar no sistema caso der certo colocar o token no cache 
+
+    //e redirecionar para pagina inicial 
+    this.localStorageService.setToken('teste');
+
+    this.router.navigate([''])
   }
 }

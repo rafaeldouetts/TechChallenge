@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagemRepository } from './ImagemRepository';
 import { publicacao } from './model/Imagem';
-import { AccountService } from '../pages/authentication/shared/account.service';
 
 @Component({
   selector: 'app-home',
@@ -70,17 +69,6 @@ export class HomeComponent implements OnInit {
       //   }
       // );
     }
-  }
-
-  getUsuario()
-  {
-    this.accountService.BuscarUsuario()
-    .subscribe(result => {
-      debugger
-    },
-    err => {
-      debugger
-    })
   }
 
 
