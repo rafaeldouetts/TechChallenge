@@ -18,4 +18,6 @@ Funcionalidades
   - Realiza a persistencia de dados
 - Recurso 4: API Minima em NET7 responsável em salvar arquivos no Azure Storage e recuperar SASToken com validade de 1 hora para acesso ao arquivo.
 
+A Imagem abaixo segue como referencia dedefinição inicial da arquitetura a ser adotada pelo time:
+
 ![image](https://github.com/JairJr/TechChallenge/assets/29376086/c1825dc0-cf40-4290-84ac-b134eff7bcbd)
