@@ -11,11 +11,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-//var configuration = new ConfigurationBuilder()
-//    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//    .Build();
-var configuration = builder.Configuration;
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+//var configuration = builder.Configuration;
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -40,7 +40,7 @@ app.MapPost("/Upload", async (IFormFile formFile) =>
 
         // Cria o contêiner caso ele não exista
         var container = blobClient.GetContainerReference(containerName);
-        //await container.CreateIfNotExistsAsync();
+        await container.CreateIfNotExistsAsync();
 
          // Define o nome do blob a partir do nome do arquivo
          var blobName = Guid.NewGuid().ToString(); // + Path.GetExtension(formFile.FileName);
@@ -102,8 +102,7 @@ static async Task<string> GetBlobUrlWithSas(string blobName, IConfigurationRoot 
 
     // Cria o contêiner caso ele não exista
     var container = blobClient.GetContainerReference(containerName);
-    //await container.CreateIfNotExistsAsync();
-    
+    //await container.CreateIfNotExistsAsync();    
 
     // Cria a referencia do Blob
     var blob = container.GetBlobReference(blobName);
@@ -112,14 +111,14 @@ static async Task<string> GetBlobUrlWithSas(string blobName, IConfigurationRoot 
     if (!checkIfExists) return string.Empty;
 
     // Obtém o SAS Token para o blob
-    //var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
-    //{
-    //    SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(1), // Define o tempo de expiração do SAS Token
-    //    Permissions = SharedAccessBlobPermissions.Read // Define as permissões do SAS Token (somente leitura neste caso)
-    //});
-    var sasToken = "sp=racwdl&st=2023-06-18T13:08:08Z&se=2023-06-23T21:08:08Z&spr=https&sv=2022-11-02&sr=c&sig=4njFIKcB7Ide2qD7voG%2ForlDZsF70qm51FYLOKIktGo%3D";
+    var sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
+    {
+        SharedAccessExpiryTime = DateTimeOffset.UtcNow.AddHours(1), // Define o tempo de expiração do SAS Token
+        Permissions = SharedAccessBlobPermissions.Read // Define as permissões do SAS Token (somente leitura neste caso)
+    });
+    //var sasToken = "sp=racwdl&st=2023-06-18T13:08:08Z&se=2023-06-23T21:08:08Z&spr=https&sv=2022-11-02&sr=c&sig=4njFIKcB7Ide2qD7voG%2ForlDZsF70qm51FYLOKIktGo%3D";
 
     // Constrói a URL do blob com o SAS Token
-    var blobUrlWithSas = blob.Uri + "?" + sasToken;
+    var blobUrlWithSas = blob.Uri + sasToken;
     return blobUrlWithSas;
 }
