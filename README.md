@@ -9,6 +9,7 @@ Funcionalidades
   - Login
   - Upload de imagens
   - Busca de imagens
+    - Detalhes de setup do Angular 8 https://v8.angular.io/guide/setup-local  
 - Recurso 2: API AspNetCore com Identity responsável pelos seguintes itens
   - Autenticação e autorização do sistema
   - Validação de token
