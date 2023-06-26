@@ -1,5 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ResponseModel } from 'src/app/models/Login';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +27,14 @@ export class AccountService {
   
   constructor(private http: HttpClient) { }
 
-  logar()
+  logar(formData)
   {
-      //  return this.http.post("/api/thumbnail-upload", formData);
+    return this.http.post<ResponseModel>(`${this.baseUrl}/api/Authenticate/login`, formData, this.httpOptions);
+  }
+
+  Cadastrar(formData): Observable<ResponseModel>
+  {
+    return this.http.post<ResponseModel>(`${this.baseUrl}/api/Authenticate/register`, formData, this.httpOptions);
   }
 
   adicionarFoto(file:File) :  Observable<any> 

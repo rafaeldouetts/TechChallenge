@@ -1,7 +1,7 @@
 <!-- <form [formGroup]="form">
 	<div class="form-group ls-login-user">
-		<label for="userLogin">Usuário</label>
-		<input  formControlName="userName" class="form-control ls-login-bg-user input-lg" id="userLogin" type="text" aria-label="Usuário" placeholder="Usuário">
+		<label for="userLogin">Usuario</label>
+		<input  formControlName="userName" class="form-control ls-login-bg-user input-lg" id="userLogin" type="text" aria-label="Usuario" placeholder="Usuario">
 	</div>
 
 	<div class="form-group ls-login-password">
@@ -15,19 +15,19 @@
 	</div>
 	
 <input (click)="adicionar()" value="Cadastrar" class="btn btn-primary btn-lg btn-block">
-</form>
-	 -->
+</form> -->
+
 
 <div class="page" style="background-color: #F5CEE6;">
 	<form [formGroup]="form" method="POST" class="formLogin">
 		<h1 style="color: #000080;">Cadastrar</h1>
 		<p>Digite os seus dados de acesso no campo abaixo.</p>
-		<label style="color: #000080;" for="email">Usuário</label>
+		<label style="color: #000080;" for="email">Usuario</label>
 		<input formControlName="userName" type="email" placeholder="Digite seu nome" autofocus="true" />
 		<label style="color: #000080;" for="email">E-mail</label>
 		<input formControlName="email" type="email" placeholder="Digite seu e-mail" autofocus="true" />
 		<label style="color: #000080;" for="password">Senha</label>
 		<input formControlName="password" type="password" placeholder="Digite sua senha" />
-		<input (click)="adicionar()" type="submit" value="Cadastrar" class="btn" />
+		<input (click)="adicionar()" value="Cadastrar" class="btn" />
 	</form>
 </div>

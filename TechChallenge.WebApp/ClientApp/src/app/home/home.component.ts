@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagemRepository } from './ImagemRepository';
 import { publicacao } from './model/Imagem';
+import { AccountService } from '../pages/authentication/shared/account.service';
+import { MatDialog } from '@angular/material';
+import { NovaPublicacaoComponent } from './nova-publicacao/nova-publicacao/nova-publicacao.component';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +13,13 @@ import { publicacao } from './model/Imagem';
 export class HomeComponent implements OnInit {
 
   fileName = '';
-  imagens: publicacao[];
+  imagens: publicacao[] = new Array<publicacao>();
 
   title = 'angularUpload';
   localUrl: any;
   file?: File;
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, public dialog: MatDialog) { }
   
   ngOnInit(): void {
     this.carregar();
@@ -73,7 +76,6 @@ export class HomeComponent implements OnInit {
 
 
   carregar(){
-    this.getUsuario();
 
     // var result = this.homeRepository.carregar();
 
@@ -84,6 +86,15 @@ export class HomeComponent implements OnInit {
 
   buscar(){
     //realizar consulta de imagens
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(NovaPublicacaoComponent, {});
+
+    dialogRef.afterClosed().subscribe(result => {
+      debugger
+      this.imagens.push(result);
+    });
   }
 }
 

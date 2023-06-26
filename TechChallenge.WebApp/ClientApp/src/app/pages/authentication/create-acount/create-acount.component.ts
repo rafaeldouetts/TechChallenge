@@ -24,4 +24,9 @@ export class CreateAcountComponent implements OnInit {
     this.title.setTitle("Cadastrar");
   }
 
+
+  adicionar()
+  {
+    
+  }
 }

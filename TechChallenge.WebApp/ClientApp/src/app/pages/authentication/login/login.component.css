@@ -97,3 +97,11 @@ body {
     background-color: #ff0676;
 
 }
+
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+  .mat-mdc-form-field {
+    margin-top: 16px;
+  }

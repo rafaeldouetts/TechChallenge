@@ -1,8 +1,10 @@
 using Azure.Messaging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection.Metadata;
@@ -14,12 +16,14 @@ namespace TechChallangeApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class FotoController : ControllerBase
+	[Authorize]
+	public class FotoController : ControllerBase
     {
         private readonly ILogger<FotoController> _logger;
         private readonly IFotosRepository _fotoRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly HttpClient _httpClient;
+        private readonly Guid _usuarioId;
 
         public FotoController(ILogger<FotoController> logger, IFotosRepository fotoRepository, IUsuarioRepository usuarioRepository, HttpClient httpClient)
         {
@@ -27,7 +31,8 @@ namespace TechChallangeApi.Controllers
             _fotoRepository = fotoRepository;
             _usuarioRepository = usuarioRepository;
             _httpClient = httpClient;
-        }
+
+		}
 
         [HttpGet("Id")]
         [SwaggerOperation(Summary = "Foto por Id", Description = "Retorna a foto respectiva do Id")]
@@ -44,8 +49,7 @@ namespace TechChallangeApi.Controllers
         public async Task<IActionResult> NewFoto(IFormFile formFile)
         {
             // Criar uma requisição HTTP POST com o corpo e cabeçalhos desejados
-            
-            var requestURLPost = "http://localhost:5012/Upload";
+			var requestURLPost = "http://localhost:5012/Upload";
 
             // Adicione o conteúdo do arquivo ao HttpContent
             var fileContent = new StreamContent(formFile.OpenReadStream());
@@ -71,7 +75,7 @@ namespace TechChallangeApi.Controllers
 
             string extensao = Path.GetExtension(fileContent.Headers.ContentDisposition.FileName);
 
-            Foto fotoResult = await _fotoRepository.AddFoto(new Foto(true, url, extensao));
+                Foto fotoResult = await _fotoRepository.AddFoto(new Foto(true, url, extensao, obterUsuarioId()));
             if(fotoResult == null) return NoContent();
             return Ok(fotoResult);
 
@@ -90,6 +94,11 @@ namespace TechChallangeApi.Controllers
         //    return Ok(publicacoes);
 
         //}
+
+        private Guid obterUsuarioId()
+        {
+            return new Guid(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+		}
 
     }
 }

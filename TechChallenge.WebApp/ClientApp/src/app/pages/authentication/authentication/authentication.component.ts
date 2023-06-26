@@ -14,19 +14,19 @@ export class AuthenticationComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(){
-    debugger
-  }
+  // onSubmit(){
+  //   debugger
+  // }
 
-  adicionar()
-  {
-    debugger
+  // adicionar()
+  // {
+  //   debugger
 
-    //logar no sistema caso der certo colocar o token no cache 
+  //   //logar no sistema caso der certo colocar o token no cache 
 
-    //e redirecionar para pagina inicial 
-    this.localStorageService.setToken('teste');
+  //   //e redirecionar para pagina inicial 
+  //   this.localStorageService.setToken('teste');
 
-    this.router.navigate([''])
-  }
+  //   this.router.navigate([''])
+  // }
 }

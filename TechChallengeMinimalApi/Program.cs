@@ -22,7 +22,7 @@ app.UseSwaggerUI();
 
 app.MapPost("/Upload", async (IFormFile formFile) =>
  {
-     var connectionString = configuration.GetConnectionString("blobstorage");
+     var connectionString = "DefaultEndpointsProtocol=https;AccountName=safiaptechnett1;AccountKey=aeJLKsxxH3wp1DwSqfChLK0U45QAiBGS7xkinaT/tfo9AXa5Vzn/noOyjawPCfTgk5K8mTZno1RW+AStf3CksA==;EndpointSuffix=core.windows.net";
      //var containerName = "filescontainer";
      var containerName = "fotoschallenge";
 
@@ -41,7 +41,7 @@ app.MapPost("/Upload", async (IFormFile formFile) =>
 
         // Cria o contêiner caso ele não exista
         var container = blobClient.GetContainerReference(containerName);
-        //await container.CreateIfNotExistsAsync();
+         await container.CreateIfNotExistsAsync();
 
          // Define o nome do blob a partir do nome do arquivo
          var blobName = Guid.NewGuid().ToString(); // + Path.GetExtension(formFile.FileName);

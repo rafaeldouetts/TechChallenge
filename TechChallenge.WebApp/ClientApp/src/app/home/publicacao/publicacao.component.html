@@ -1,0 +1,13 @@
+
+
+
+<div>
+    <img style=" height: 90%;     width: 10%; border-radius: 50%;" [src]="perfil" *ngIf="perfil" class="imgPlaceholder">
+    <span style="margin-left: 3%;">rafael</span>
+</div>
+
+<div *ngIf="url" style="margin-top: 3%;">
+    <img style="width: 90%; height: 90%;" [src]="url" *ngIf="url" class="imgPlaceholder">
+</div>
+<p style="margin: 0px;">{{nomeUsuario}} :  {{descricao}}</p>
+<p>{{tempo}}</p>

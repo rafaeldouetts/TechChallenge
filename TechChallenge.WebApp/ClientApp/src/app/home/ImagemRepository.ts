@@ -5,7 +5,7 @@ import { environment } from "src/environments/environment";
 
 export class ImagemRepository {
  
-    constructor(private http: HttpClient) { }
+    // constructor(private http: HttpClient) { }
 
     baseUrl = environment.minimalUrl;
 
@@ -13,11 +13,13 @@ export class ImagemRepository {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    adicionar(formData) : Observable<any>
+    adicionar(formData) : string
     {
         // return this.http.post("/api/thumbnail-upload", formData);
 
-        return this.http.post<any>(`${this.baseUrl}/Upload`, formData, this.httpOptions);
+        // return this.http.post<any>(`${this.baseUrl}/Upload`, formData, this.httpOptions);
+    
+        return "https://www.wikihow.com/images_en/thumb/d/db/Get-the-URL-for-Pictures-Step-2-Version-6.jpg/v4-460px-Get-the-URL-for-Pictures-Step-2-Version-6.jpg.webp";
     }
 
     // carregar(): Observable<imagem>
