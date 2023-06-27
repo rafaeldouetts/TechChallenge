@@ -22,7 +22,7 @@ app.UseSwaggerUI();
 
 app.MapPost("/Upload", async (IFormFile formFile) =>
  {
-     var connectionString = "DefaultEndpointsProtocol=https;AccountName=safiaptechnett1;AccountKey=aeJLKsxxH3wp1DwSqfChLK0U45QAiBGS7xkinaT/tfo9AXa5Vzn/noOyjawPCfTgk5K8mTZno1RW+AStf3CksA==;EndpointSuffix=core.windows.net";
+     var connectionString = "DefaultEndpointsProtocol=https;AccountName=storagefotoschallenge;AccountKey=LgOO4uhzu5Hbx+rAxciz95eF+1fX76HR8LLcfh0iEu6Kl5kcLPNBRn3tPfNxtRq8Z3LvykMA82uM+AStqG73IA==;EndpointSuffix=core.windows.net";
      //var containerName = "filescontainer";
      var containerName = "fotoschallenge";
 

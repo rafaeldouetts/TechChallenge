@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 using TechChallangeApi.Data;
 using TechChallangeApi.Models;
+using TechChallengeApi.Models;
 
 namespace TechChallangeApi.Controllers
 {
@@ -31,7 +33,7 @@ namespace TechChallangeApi.Controllers
 
         [HttpGet("{usuarioId}")]
         [SwaggerOperation(Summary = "Publicações do usuário", Description = "Retorna Lista com todas as publicações do usuário que possue o ID informado")]
-        public IActionResult PublicacoesByUserId(int usuarioId)
+        public IActionResult PublicacoesByUserId(Guid usuarioId)
         {
             Usuario usuario = _usuarioRepository.GetUsuarioById(usuarioId);
             IEnumerable<Publicacao> publicacoes = _publicacaoRepository.GetPublicacoes(usuario);
@@ -42,7 +44,7 @@ namespace TechChallangeApi.Controllers
 
         [HttpPost("{usuarioId}/Date")]
         [SwaggerOperation(Summary = "Publicação do usuário em data específica", Description = "Retorna Lista com todas as publicações na data informada e publicadas pelo usuário que possue o ID informado")]
-        public IActionResult PublicacoesByUserIdAndDate(int usuarioId, [FromBody] string date)
+        public IActionResult PublicacoesByUserIdAndDate(Guid usuarioId, [FromBody] string date)
         {
             Usuario usuario = _usuarioRepository.GetUsuarioById(usuarioId);
 
@@ -54,19 +56,14 @@ namespace TechChallangeApi.Controllers
 
         }
         //string nome, Usuario usuario, string urlPerfil, Foto foto
-        [HttpPost("New/{usuarioId}")]
+        [HttpPost("New")]
         [SwaggerOperation(Summary = "Fazer uma publicação", Description = "Envia uma foto para ser registrada no storage e no DB com as informações do usuário")]
-        public async Task<IActionResult> NewPublicacao(int usuarioId, [FromQuery] string nome, IFormFile formFile)
+        public async Task<IActionResult> NewPublicacao(PuclicacaoInsert puclicacao)
         {
-            Usuario usuario = _usuarioRepository.GetUsuarioById(usuarioId);
-            var result = await _fotoController.NewFoto(formFile);
+			var idUsuario = new Guid("DDECCA19-CB4B-4E49-81B3-DC4B16CC060E");
+		
+            Publicacao publicacao = await _publicacaoRepository.AddPublicacao(new Publicacao(puclicacao.Nome, idUsuario, puclicacao.FotoId));
 
-            if (result is OkObjectResult okResult && okResult.Value is Foto foto)
-            {
-                Publicacao publicacao = await _publicacaoRepository.AddPublicacao(new Publicacao(nome, usuario, foto));
-                if (publicacao == null) return NoContent();
-                return Ok(publicacao);
-            }
 
             return NoContent();
 
@@ -82,5 +79,9 @@ namespace TechChallangeApi.Controllers
 
         }
 
-    }
+		private Guid obterUsuarioId()
+		{
+			return new Guid(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+		}
+	}
 }

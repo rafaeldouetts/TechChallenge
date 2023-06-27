@@ -20,6 +20,7 @@ namespace TechChallangeApi.Models
         public string Url { get; set; }
         public string Extensao { get; set; }
         public DateTime DataEnvio { get; set; }
-        public Guid UsuarioId { get; set; }       
+        public Guid UsuarioId { get; set; } 
+        public virtual Publicacao Publicacao { get; set; }
     }
 }

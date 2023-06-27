@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TechChallengeWeb.Migrations
+namespace TechChallengeApi.Migrations
 {
     /// <inheritdoc />
-    public partial class CriandoTabelas : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,9 @@ namespace TechChallengeWeb.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Publica = table.Column<bool>(type: "bit", nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Extensao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +32,7 @@ namespace TechChallengeWeb.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -47,10 +48,9 @@ namespace TechChallengeWeb.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    UrlPerfil = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FotoId = table.Column<int>(type: "int", nullable: false),
-                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataEnvio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FotoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +72,8 @@ namespace TechChallengeWeb.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Publicacoes_FotoId",
                 table: "Publicacoes",
-                column: "FotoId");
+                column: "FotoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Publicacoes_UsuarioId",

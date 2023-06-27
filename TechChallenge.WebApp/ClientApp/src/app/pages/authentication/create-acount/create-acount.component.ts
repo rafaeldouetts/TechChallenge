@@ -25,8 +25,16 @@ export class CreateAcountComponent implements OnInit {
   }
 
 
-  adicionar()
+  cadastrar()
   {
-    
+    this.accountService.Cadastrar(this.form.value).subscribe(result => {
+      debugger
+      this._snackBar.open('Usuario Cadastrado com sucesso!');
+
+      this.router.navigate([''])
+    },
+    err =>{
+      this._snackBar.open('Usuario ou senha invalida!');
+    });
   }
 }

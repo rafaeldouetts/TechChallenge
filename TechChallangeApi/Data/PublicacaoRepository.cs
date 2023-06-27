@@ -64,9 +64,11 @@ namespace TechChallangeApi.Data
             try
             {
 
-                Publicacao publicacaoResultado = context.Publicacoes.FirstOrDefault(p => p.Usuario == usuario && p.DataEnvio == dateTime);
-                if (publicacaoResultado == null) throw new Exception("Publicação não encontrada");
-                return publicacaoResultado;
+                //Publicacao publicacaoResultado = context.Publicacoes.FirstOrDefault(p => p.Usuario == usuario && p.DataEnvio == dateTime);
+                //if (publicacaoResultado == null) throw new Exception("Publicação não encontrada");
+                //return publicacaoResultado;
+
+                return null;
             }
             catch (Exception e)
             {
@@ -78,9 +80,11 @@ namespace TechChallangeApi.Data
         {
             try
             {
-                IEnumerable<Publicacao> publicacoesResultado = context.Publicacoes.Where(p => p.Usuario == usuario);
-                if (publicacoesResultado == null) throw new Exception("Publicações não encontradas para esse usuário");
-                return publicacoesResultado;
+            //    IEnumerable<Publicacao> publicacoesResultado = context.Publicacoes.Where(p => p.Usuario == usuario);
+            //    if (publicacoesResultado == null) throw new Exception("Publicações não encontradas para esse usuário");
+            //    return publicacoesResultado;
+
+                return null;
             }
             catch (Exception e)
             {

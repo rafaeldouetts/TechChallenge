@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace TechChallengeWeb.Migrations
+namespace TechChallengeApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -69,12 +69,13 @@ namespace TechChallengeWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FotoId");
+                    b.HasIndex("FotoId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -83,11 +84,9 @@ namespace TechChallengeWeb.Migrations
 
             modelBuilder.Entity("TechChallangeApi.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -105,13 +104,13 @@ namespace TechChallengeWeb.Migrations
             modelBuilder.Entity("TechChallangeApi.Models.Publicacao", b =>
                 {
                     b.HasOne("TechChallangeApi.Models.Foto", "Foto")
-                        .WithMany()
-                        .HasForeignKey("FotoId")
+                        .WithOne("Publicacao")
+                        .HasForeignKey("TechChallangeApi.Models.Publicacao", "FotoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TechChallangeApi.Models.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Publicacoes")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -119,6 +118,17 @@ namespace TechChallengeWeb.Migrations
                     b.Navigation("Foto");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("TechChallangeApi.Models.Foto", b =>
+                {
+                    b.Navigation("Publicacao")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TechChallangeApi.Models.Usuario", b =>
+                {
+                    b.Navigation("Publicacoes");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   adicionar()
   {
+    debugger
     this.accountService.logar(this.form.value).subscribe(result => {
       debugger
       this.localStorageService.setToken(result.data);

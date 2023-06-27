@@ -29,6 +29,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//cors
+var politica = "CorsPolicy-public";
+
+builder.Services.AddCors(option => option.AddPolicy(politica, builder => builder.WithOrigins("http://localhost:4200", "https://localhost")
+	 .AllowAnyMethod()
+				.AllowAnyHeader()
+				.AllowCredentials()
+				.Build()));
+
 //authentication
 var key = Encoding.ASCII.GetBytes("1f1ce09a-0b07-4fd8-889e-e3e18442b081");
 
@@ -58,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//cors
+app.UseCors("CorsPolicy-public");
 app.UseAuthorization();
 
 

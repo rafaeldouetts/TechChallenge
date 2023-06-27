@@ -34,7 +34,7 @@ namespace TechChallangeApi.Controllers
 
 		}
 
-        [HttpGet("Id")]
+        [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Foto por Id", Description = "Retorna a foto respectiva do Id")]
         public IActionResult FotoById(int id)
         {

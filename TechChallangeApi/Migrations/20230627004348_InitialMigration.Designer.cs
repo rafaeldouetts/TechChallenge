@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace TechChallengeWeb.Migrations
+namespace TechChallengeApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230614005950_Alterando-estrutura-Fotos")]
-    partial class AlterandoestruturaFotos
+    [Migration("20230627004348_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace TechChallengeWeb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TechChallengeWeb.Models.Foto", b =>
+            modelBuilder.Entity("TechChallangeApi.Models.Foto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,12 +46,15 @@ namespace TechChallengeWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("Fotos");
                 });
 
-            modelBuilder.Entity("TechChallengeWeb.Models.Publicacao", b =>
+            modelBuilder.Entity("TechChallangeApi.Models.Publicacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,29 +72,24 @@ namespace TechChallengeWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UrlPerfil")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FotoId");
+                    b.HasIndex("FotoId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Publicacoes");
                 });
 
-            modelBuilder.Entity("TechChallengeWeb.Models.Usuario", b =>
+            modelBuilder.Entity("TechChallangeApi.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -106,16 +104,16 @@ namespace TechChallengeWeb.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("TechChallengeWeb.Models.Publicacao", b =>
+            modelBuilder.Entity("TechChallangeApi.Models.Publicacao", b =>
                 {
-                    b.HasOne("TechChallengeWeb.Models.Foto", "Foto")
-                        .WithMany()
-                        .HasForeignKey("FotoId")
+                    b.HasOne("TechChallangeApi.Models.Foto", "Foto")
+                        .WithOne("Publicacao")
+                        .HasForeignKey("TechChallangeApi.Models.Publicacao", "FotoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TechChallengeWeb.Models.Usuario", "Usuario")
-                        .WithMany()
+                    b.HasOne("TechChallangeApi.Models.Usuario", "Usuario")
+                        .WithMany("Publicacoes")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -123,6 +121,17 @@ namespace TechChallengeWeb.Migrations
                     b.Navigation("Foto");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("TechChallangeApi.Models.Foto", b =>
+                {
+                    b.Navigation("Publicacao")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TechChallangeApi.Models.Usuario", b =>
+                {
+                    b.Navigation("Publicacoes");
                 });
 #pragma warning restore 612, 618
         }

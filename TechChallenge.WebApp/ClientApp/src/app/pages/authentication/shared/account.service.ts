@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Foto } from 'src/app/models/Foto';
 import { ResponseModel } from 'src/app/models/Login';
 import { environment } from 'src/environments/environment';
 
@@ -10,13 +11,14 @@ import { environment } from 'src/environments/environment';
 export class AccountService {
   baseUrl = environment.baseUrl;
   minimalUrl = environment.minimalUrl;
+  coreUrl = environment.baseCoreUrl;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   httpOptionsImage = {
-    headers: new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' })
+    headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data; boundary=something' })
   };
 
   // headers =
@@ -48,4 +50,22 @@ export class AccountService {
 
     return this.http.post<any>(`${this.minimalUrl}/Upload`, form, this.httpOptionsImage);
   }
+
+  adicionar(file:File) : Observable<Foto>
+  {
+    const form: FormData = new FormData();
+    console.log(file.name);
+    console.log(file);
+    form.append('formFile', file);
+
+      return this.http.post<any>(`${this.coreUrl}/Foto`, form);
+  
+      // return "https://www.wikihow.com/images_en/thumb/d/db/Get-the-URL-for-Pictures-Step-2-Version-6.jpg/v4-460px-Get-the-URL-for-Pictures-Step-2-Version-6.jpg.webp";
+  }
+
+  publicar(body:any) : Observable<any>
+  {
+    return this.http.post<any>(`${this.coreUrl}/publi/new`, body);
+  }
+
 }
