@@ -1,4 +1,4 @@
-
+<!-- 
 <div style="display: flex; justify-content: end;">
 <div class="search">
   <input
@@ -55,7 +55,7 @@
 
 
 
-<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+<input type="file" class="file-input" (change)="adicionar($event)" #fileUpload>
 
 <div style="display: flex;
 justify-content: end;" class="file-upload">
@@ -65,4 +65,19 @@ justify-content: end;" class="file-upload">
   <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
     <mat-icon>attach_file</mat-icon>
   </button>
+</div> -->
+
+
+
+<div *ngIf="imagens.length == 0" class="page" style="background-color: #F5CEE6;">
+  <form  style="display: flex; justify-content: center; align-items: center; width: 15%;height: 16%;"
+  method="POST" class="formLogin">
+  <mat-icon (click)="openDialog()" style="transform: scale(6); position: absolute; top: 50%; left: 50%;">add_circle_outline</mat-icon>
+  </form>
+</div>
+
+<div style="background-color: white;" *ngIf="imagens.length > 0">
+  <div style="width: 30%;" *ngFor="let imagem of imagens">
+  <app-publicacao [descricao]="imagem.nome" [url]="imagem.urlPerfil"></app-publicacao>
+</div>
 </div>

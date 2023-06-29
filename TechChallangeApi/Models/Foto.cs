@@ -4,12 +4,13 @@ namespace TechChallangeApi.Models
 {
     public class Foto
     {
-        public Foto(bool publica, string url, string extensao)
+        public Foto(bool publica, string url, string extensao, Guid usuarioId)
         {
             Publica = publica;
             Url = url;
             Extensao = extensao;
             DataEnvio = DateTime.Now;
+			UsuarioId = usuarioId;
         }
 
         [Key]
@@ -19,5 +20,7 @@ namespace TechChallangeApi.Models
         public string Url { get; set; }
         public string Extensao { get; set; }
         public DateTime DataEnvio { get; set; }
+        public Guid UsuarioId { get; set; } 
+        public virtual Publicacao Publicacao { get; set; }
     }
 }

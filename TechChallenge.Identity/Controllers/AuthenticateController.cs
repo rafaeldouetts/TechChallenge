@@ -39,7 +39,7 @@ public class AuthenticateController : ControllerBase
         IdentityUser user = new()
         {
             SecurityStamp = Guid.NewGuid().ToString(),
-            Email = model.Email,
+            Email = model.Email,    
             UserName = model.UserName
         };
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagemRepository } from './ImagemRepository';
 import { publicacao } from './model/Imagem';
+import { AccountService } from '../pages/authentication/shared/account.service';
+import { MatDialog } from '@angular/material';
+import { NovaPublicacaoComponent } from './nova-publicacao/nova-publicacao/nova-publicacao.component';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +13,41 @@ import { publicacao } from './model/Imagem';
 export class HomeComponent implements OnInit {
 
   fileName = '';
-  imagens: publicacao[];
+  imagens: publicacao[] = new Array<publicacao>();
 
-  constructor(private homeRepository: ImagemRepository) { }
+  title = 'angularUpload';
+  localUrl: any;
+  file?: File;
+
+  constructor(private accountService: AccountService, public dialog: MatDialog) { }
   
   ngOnInit(): void {
     this.carregar();
   }
 
+  selectFile(event: any) {
+    debugger
+    this.file = <File>event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.localUrl = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  uploadFile() {
+    debugger
+    if (this.file != undefined) {
+      this.accountService.adicionarFoto(this.file).subscribe((data) => {
+        console.log(data);
+        alert("Arquivo enviado com sucesso!")
+      })
+    } else {
+      alert("Selecione um arquivo!")
+    }
+  }
 
   adicionar(event: any) {
     debugger
@@ -32,28 +62,39 @@ export class HomeComponent implements OnInit {
 
       formData.append("thumbnail", file);
 
-      this.homeRepository.adicionar(formData).subscribe(data => {
-
-        //imagem adicionada com sucesso 
-      },
-        err => {
-          //imagem náo adicionada com sucesso 
-        }
-      );
+      // this.accountService.adicionarFoto(formData).subscribe(data => {
+      //   debugger
+      //   //imagem adicionada com sucesso 
+      // },
+      //   err => {
+      //     debugger
+      //     //imagem náo adicionada com sucesso 
+      //   }
+      // );
     }
   }
 
 
   carregar(){
-    var result = this.homeRepository.carregar();
 
-    this.imagens = result;
+    // var result = this.homeRepository.carregar();
+
+    // this.imagens = result;
 
     debugger
   }
 
   buscar(){
     //realizar consulta de imagens
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(NovaPublicacaoComponent, {});
+
+    dialogRef.afterClosed().subscribe(result => {
+      debugger
+      this.imagens.push(result);
+    });
   }
 }
 

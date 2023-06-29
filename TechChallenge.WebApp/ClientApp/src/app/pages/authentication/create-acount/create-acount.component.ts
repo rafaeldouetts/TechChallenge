@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AccountService } from '../shared/account.service';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create-acount',
@@ -7,9 +12,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateAcountComponent implements OnInit {
 
-  constructor() { }
+  form = new FormGroup({
+    userName: new FormControl(''),
+    password: new FormControl(''),
+    email: new FormControl('')
+  });
+  
+  constructor(private title:Title, private _snackBar: MatSnackBar, private router: Router, private accountService: AccountService) { }
 
   ngOnInit() {
+    this.title.setTitle("Cadastrar");
   }
 
+
+  cadastrar()
+  {
+    this.accountService.Cadastrar(this.form.value).subscribe(result => {
+      debugger
+      this._snackBar.open('Usuario Cadastrado com sucesso!');
+
+      this.router.navigate([''])
+    },
+    err =>{
+      this._snackBar.open('Usuario ou senha invalida!');
+    });
+  }
 }

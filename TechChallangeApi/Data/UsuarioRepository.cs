@@ -17,12 +17,14 @@ namespace TechChallangeApi.Data
         {
             try
             {
-                if (usuario == null) throw new ArgumentNullException(nameof(usuario));
-                await context.Set<Usuario>().AddAsync(usuario);
-                await context.SaveChangesAsync();
-                Usuario usuarioResultado = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuario.Id);
-                if (usuarioResultado == null) throw new Exception("Usuario não encontrada");
-                return usuarioResultado;
+                //if (usuario == null) throw new ArgumentNullException(nameof(usuario));
+                //await context.Set<Usuario>().AddAsync(usuario);
+                //await context.SaveChangesAsync();
+                //Usuario usuarioResultado = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuario.Id);
+                //if (usuarioResultado == null) throw new Exception("Usuario não encontrada");
+                //return usuarioResultado;
+
+                return null;
             }
             catch (Exception e)
             {
@@ -30,7 +32,7 @@ namespace TechChallangeApi.Data
             }
         }
 
-        public void DeleteUsuario(int id)
+        public void DeleteUsuario(Guid id)
         {
             try
             {
@@ -45,13 +47,15 @@ namespace TechChallangeApi.Data
             }
         }
 
-        public Usuario GetUsuarioById(int id)
+        public Usuario GetUsuarioById(Guid id)
         {
             try
             {
-                Usuario usuarioResultado = context.Usuarios.FirstOrDefault(u => u.Id == id);
-                if (usuarioResultado == null) throw new Exception("Usuario não encontrada");
-                return usuarioResultado;
+                //Usuario usuarioResultado = context.Usuarios.FirstOrDefault(u => u.Id == id);
+                //if (usuarioResultado == null) throw new Exception("Usuario não encontrada");
+                //return usuarioResultado;
+
+                return null;
             }
             catch (Exception e)
             {

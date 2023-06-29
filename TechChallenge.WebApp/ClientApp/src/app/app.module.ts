@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -10,13 +10,17 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSlideToggleModule, MatSnackBarModule, MatStepperModule } from '@angular/material';
 import { ImagemRepository } from './home/ImagemRepository';
 import { LoginComponent } from './pages/authentication/login/login.component';
 import { CreateAcountComponent } from './pages/authentication/create-acount/create-acount.component';
 import { AuthenticationComponent } from './pages/authentication/authentication/authentication.component';
 import { AuthGuard } from './pages/authentication/shared/auth.guard';
 import { localStorageService } from './shared/localStorageService';
+import { ErrorRequestInterceptor } from './pages/authentication/shared/Error.Interceptor';
+import { TokenInterceptor } from './pages/authentication/shared/jwt.interceptor';
+import { NovaPublicacaoComponent } from './home/nova-publicacao/nova-publicacao/nova-publicacao.component';
+import { PublicacaoComponent } from './home/publicacao/publicacao.component';
 
 @NgModule({
   declarations: [
@@ -27,8 +31,11 @@ import { localStorageService } from './shared/localStorageService';
     FetchDataComponent,
     AuthenticationComponent,
     LoginComponent,
-    CreateAcountComponent
+    NovaPublicacaoComponent,
+    CreateAcountComponent,
+    PublicacaoComponent
   ],
+  entryComponents:[NovaPublicacaoComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -36,6 +43,7 @@ import { localStorageService } from './shared/localStorageService';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatStepperModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', children:[
       { path: 'counter', component: CounterComponent },
@@ -45,20 +53,25 @@ import { localStorageService } from './shared/localStorageService';
 
   },
 
-    {
-      path: '', 
-      component: AuthenticationComponent,
-      children:[
-        {path: '', redirectTo:'login', pathMatch: 'full'},
-        { path: 'login', component: LoginComponent },
-        { path: 'create-account', component: CreateAcountComponent },
-      ]
-    }
+    {path: '', component: AuthenticationComponent},
+    {path: '', redirectTo:'login', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent },
+    { path: 'create-account', component: CreateAcountComponent },
       
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    ErrorRequestInterceptor,
+    TokenInterceptor,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatSlideToggleModule
+
   ],
-  providers: [ImagemRepository, localStorageService],
+  providers: [localStorageService, ImagemRepository],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

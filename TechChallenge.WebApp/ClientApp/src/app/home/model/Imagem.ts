@@ -14,7 +14,7 @@ export class publicacao {
 
 export class foto {
 
-    constructor( url:string, publica:boolean, dataEnvio:Date)
+    constructor(url:string = null, publica:boolean = null, dataEnvio:Date = null)
 {
     this.url = url;
     this.publica = publica;

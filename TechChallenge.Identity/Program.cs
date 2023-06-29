@@ -43,6 +43,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+//cors
+var politica = "CorsPolicy-public";
+
+builder.Services.AddCors(option => option.AddPolicy(politica, builder => builder.WithOrigins("http://localhost:4200", "https://localhost")
+	 .AllowAnyMethod()
+				.AllowAnyHeader()
+				.AllowCredentials()
+				.Build()));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -74,6 +83,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -85,6 +95,9 @@ app.UseHttpsRedirection();
 //Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+//cors
+app.UseCors("CorsPolicy-public");
 
 app.MapControllers();
 

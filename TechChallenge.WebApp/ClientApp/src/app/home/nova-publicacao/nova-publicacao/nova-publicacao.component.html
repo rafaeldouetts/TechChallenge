@@ -1,0 +1,114 @@
+<!-- <form>
+    <div>
+        <input type="file" (change)="selectFile($event)" class="form-control">
+        <img *ngIf="localUrl" [src]="localUrl" class="imgPlaceholder">
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-top: 5%;">
+        <input placeholder="descricao">
+    </div>
+
+    <div style="display: flex; justify-content: end;">
+        <input [disabled]="!localUrl" type="submit" (click)="uploadFile()" class="btn btn-success" value="Enviar">
+    </div>
+
+</form> -->
+
+
+<form [formGroup]="formGroup" method="POST" class="formLogin">
+    <mat-horizontal-stepper #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Imagem</ng-template>
+
+            <div style="height: 500px; width: 500px;">
+
+                <input type="file" class="file-input" (change)="onFileSelected($event, stepper)" #fileUpload>
+
+                <div style="    height: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-width: 8px;
+        border-style: dashed;
+        border-color: #707070;
+        border-radius: 40px;
+        margin-top: 10px;" class="file-upload" *ngIf="Foto && !Foto.url">
+                    <label style="width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            display: flex;" for='selecao-arquivo' (click)="fileUpload.click()
+            ">selecione uma imagem</label>
+                    <!-- <input id='selecao-arquivo' style="display: none;" type="file" (change)="selectFile($event)" class="form-control"> -->
+
+
+                    <!-- <input type="file" (change)="selectFile($event)" class="form-control">
+            <input type="submit" (click)="uploadFile()" class="btn btn-success" value="Enviar"> -->
+                </div>
+
+                <div *ngIf="Foto && Foto.url">
+                    <img style="width: 90%; height: 90%;" [src]="Foto.url" *ngIf="Foto && Foto.url" class="imgPlaceholder">
+                </div>
+
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Descricao</ng-template>
+                <div style="    height: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-width: 8px;
+        border-style: dashed;
+        border-color: #707070;
+        border-radius: 40px;
+        margin-top: 10px;" class="file-upload" *ngIf="Foto && !Foto.url">
+                    <label style="width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            display: flex;" for='selecao-arquivo' (click)="fileUpload.click()
+            ">selecione uma imagem</label>
+                    <!-- <input id='selecao-arquivo' style="display: none;" type="file" (change)="selectFile($event)" class="form-control"> -->
+
+
+                    <!-- <input type="file" (change)="selectFile($event)" class="form-control">
+            <input type="submit" (click)="uploadFile()" class="btn btn-success" value="Enviar"> -->
+                </div>
+
+                <div *ngIf="Foto && Foto.url">
+                    <img style="width: 90%; height: 90%;" [src]="Foto.url" *ngIf="Foto.url" class="imgPlaceholder">
+                </div>
+                <input formControlName="descricao" type="text" style="margin-top: 5%; width: 90%;"
+                    placeholder="Insira a descrição">
+
+                <div *ngIf="Foto && Foto.url" style="display: flex; justify-content: end; margin-top: 5%;">
+                    <input [disabled]="!Foto.url" type="submit" (click)="next(stepper)" class="btn btn-success"
+                        value="Confirmar">
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Preview</ng-template>
+            <app-publicacao *ngIf="Foto" [descricao]="descricao" [url]="Foto.url"></app-publicacao>
+            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedPublico">
+                publico
+            </mat-slide-toggle>
+
+            <div *ngIf="Foto" style="display: flex; justify-content: end;">
+                <input [disabled]="!Foto.url" type="submit" (click)="uploadFile()" class="btn btn-success"
+                    value="Publicar">
+            </div>
+
+            <!-- TODO -->
+            <!-- no momento de cadastro do usuario vamos subir uma imagem temporariamente caso a foto nao seja vinculada a nenhum usuario em 1 semana vamos apagar essa foto 
+            basta criar uma propriedade privada na classe da foto que sera o id da pessoa e uma propriedade que dira se foi vinculada ou nao 
+
+            vincualada {get => return idPessoa.hasValue}
+            criar um servico para limpar as imagens que nao foram publicadas que vamos subir temporariamente  -->
+        </mat-step>
+    </mat-horizontal-stepper>
+</form>
