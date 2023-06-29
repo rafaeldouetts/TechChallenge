@@ -3,15 +3,15 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NuGet.Frameworks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using TechChallenge.Tests.shared;
+using Xunit;
 
 namespace SeleniumTests
 {
-	[TestClass]
 	public class UsuarioTestCase
 	{
 		private static IWebDriver driver;
@@ -19,42 +19,48 @@ namespace SeleniumTests
 		private static string baseURL;
 		private bool acceptNextAlert = true;
 
-		[ClassInitialize]
-		public static void InitializeClass(TestContext testContext)
+		public UsuarioTestCase()
 		{
 			driver = new ChromeDriver();
-			baseURL = "https://www.katalon.com/";
 		}
 
-		[ClassCleanup]
-		public static void CleanupClass()
-		{
-			try
-			{
-				//driver.Quit();// quit does not close the window
-				driver.Close();
-				driver.Dispose();
-			}
-			catch (Exception)
-			{
-				// Ignore errors if unable to close the browser
-			}
-		}
+		//[ClassInitialize]
+		//public static void InitializeClass(TestContext testContext)
+		//{
+		//	driver = new ChromeDriver();
+		//	baseURL = "https://www.katalon.com/";
+		//}
 
-		[TestInitialize]
-		public void InitializeTest()
-		{
-			verificationErrors = new StringBuilder();
-		}
+		//[ClassCleanup]
+		//public static void CleanupClass()
+		//{
+		//	try
+		//	{
+		//		//driver.Quit();// quit does not close the window
+		//		driver.Close();
+		//		driver.Dispose();
+		//	}
+		//	catch (Exception)
+		//	{
+		//		// Ignore errors if unable to close the browser
+		//	}
+		//}
 
-		[TestCleanup]
-		public void CleanupTest()
-		{
-			Assert.AreEqual("", verificationErrors.ToString());
-		}
+		//[TestInitialize]
+		//public void InitializeTest()
+		//{
+		//	verificationErrors = new StringBuilder();
+		//}
 
-		[TestMethod]
-		public void Usuario_0()
+		//[TestCleanup]
+		//public void CleanupTest()
+		//{
+		//	Assert.AreEqual("", verificationErrors.ToString());
+		//}
+
+		[Fact(DisplayName = "Adicionar usuario com sucesso."), TestPriority(1)]
+		[Trait("Usuario", "Usuario identity Testes")]
+		public void Usuario_NovoUsuario_Valido()
 		{
 
 			//Arrange
@@ -82,11 +88,12 @@ namespace SeleniumTests
 
 
 			//Assert
-			Assert.AreEqual(mensagem, "Usuario Cadastrado com sucesso!");
+			Assert.True(mensagem == "Usuario Cadastrado com sucesso!");
 		}
 
-		[TestMethod]
-		public void Usuario_1()
+		[Fact(DisplayName = "Adicionar usuario duplicado."), TestPriority(2)]
+		[Trait("Usuario", "Usuario identity Testes")]
+		public void Usuario_NovoUsuario_Invalido()
 		{
 			//Assert
 			driver.Navigate().GoToUrl("http://localhost:4200/create-account");
@@ -111,7 +118,7 @@ namespace SeleniumTests
 			Capturar("UsuarioInvalido");
 
 			//Assert
-			Assert.AreEqual(mensagem, "Usuario ou senha invalida!");
+			Assert.True(mensagem == "Usuario ou senha invalida!");
 		}
 
 		//[TestMethod]
