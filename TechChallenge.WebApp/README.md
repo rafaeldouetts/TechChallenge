@@ -5,7 +5,7 @@
   - Instalar o Angular 8 que pode ser isntalado via gerenciador NPM pelo comando <i>"npm install -g @angular/cli@8.3"</i>
 
 - Execução do projeto:
-  - Acessar a pasta ..\TechChallenge.WebApp\ClientApp\src
+  - Acessar a pasta ..\TechChallenge.WebApp\ClientApp
   - Executar o comando <i>"npm install"</i>, caso venha a ocorrer algum problema de compatibilidade pode instalar os pacotes com o seguinte comando <i>"npm install --save --legacy-peer-deps"</i>
   - Com os pacotes devidamente instalados podemos executar o projeto com o comando <i>"ng serve --open"</i>
   - Caso haja alguma incompatibilidade de modulos relativos ao WebPack poderá executar o comando abaixo
