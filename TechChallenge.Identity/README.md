@@ -10,3 +10,6 @@ com as configurações corretas é apenas executar a partir da pasta o comando <
 
 É possivel verificar e validar os endpoints através do Swagger conforme imagem abaixo:
 ![image](https://github.com/JairJr/TechChallenge/assets/29376086/5bb35346-b6b4-4e70-972f-dede1ae7e052)
+
+Segue documentação oficial da Microsoft que foi utilizada como base para a implementação 
+https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-7.0&tabs=visual-studio
