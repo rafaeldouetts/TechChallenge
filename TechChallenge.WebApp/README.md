@@ -1,15 +1,14 @@
 # Configurações necessárias para execução do projeto angular 8
 
-- pré-requisito:
-  - Ter o Node instalado, no caso utilizamos a versão 14.16.0 que pode ser baixado em https://nodejs.org/dist/v14.16.0
-  - Instalar o Angular 8 que pode ser isntalado via gerenciador NPM pelo comando <i>"npm install -g @angular/cli@8.3"</i>
+- Requisitos:
+  - Node.js - Utilizamos a versão 14.16.0 que pode ser baixado em https://nodejs.org/dist/v14.16.0
+  - Angular 8 - Pode ser isntalado via gerenciador NPM pelo comando <i>"npm install -g @angular/cli@8.3"</i>
 
 - Execução do projeto:
   - Acessar a pasta ..\TechChallenge.WebApp\ClientApp\src
-  - Executar o comando <i>"npm install"</i>, caso venha a ocorrer algum problema de compatibilidade pode instalar os pacotes com o seguinte comando <i>"npm install --save --legacy-peer-deps"</i>
-  - Com os pacotes devidamente instalados podemos executar o projeto com o comando <i>"ng serve --open"</i>
-  - Caso haja alguma incompatibilidade de modulos relativos ao WebPack poderá executar o comando abaixo
-      - <i><b>$env:NODE_OPTIONS = "--openssl-legacy-provider"</i></b> para o powershell ou se estiver utilizando o prompt de comandos(cmd) <i><b>set NODE_OPTIONS=--openssl-legacy-provider"</i></b>
+  - Para a instalação dos pacotes necessário, executar o comando <i>"npm install"</i> ou o comando <i>"npm install --save --legacy-peer-deps"</i> em caso de problema com compatibilidade 
+  - Com os pacotes devidamente instalados podemos executar o projeto com o comando <i>"ng serve --open"</i> (para ambientes de desenvolvimento)
+  - Caso haja alguma incompatibilidade de modulos relativos ao WebPack, execute o comando <i><b>$env:NODE_OPTIONS = "--openssl-legacy-provider"</i></b> para o powershell ou se estiver utilizando o prompt de comandos(cmd) <i><b>set NODE_OPTIONS=--openssl-legacy-provider"</i></b>
 
 * com estes passos é possivel executar a aplicação front-end conforme exemplo abaixo:
 
