@@ -5,11 +5,13 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.StorageMinimalApi", "TechChallengeMinimalApi\TechChallenge.StorageMinimalApi.csproj", "{9572C203-3A49-4178-B2B6-8D2D69F445F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallengeApi", "TechChallangeApi\TechChallengeApi.csproj", "{5EB82060-06BA-42DA-B679-CB06D4420A5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.Api", "TechChallangeApi\TechChallenge.Api.csproj", "{5EB82060-06BA-42DA-B679-CB06D4420A5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.Identity", "TechChallenge.Identity\TechChallenge.Identity.csproj", "{18DE08F8-7AE9-4227-9105-BCD6EC098117}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.WebApp", "TechChallenge.WebApp\TechChallenge.WebApp.csproj", "{E1976E62-D439-40AD-A5B7-5F6FCB5ADC6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechChallenge.Tests", "TechChallenge.Tests\TechChallenge.Tests.csproj", "{E98B037F-50D6-4A36-AE8D-F7462F525F41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
