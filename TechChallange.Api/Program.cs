@@ -1,14 +1,106 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using TechChallangeApi.Controllers;
 using TechChallangeApi.Data;
+using TechChallenge.Api.Factory;
+using TechChallenge.Api.Models;
+using TechChallenge.Api.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//Log configuration
+var configuration = new ConfigurationBuilder()
+	.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json")
+			.Build();
+
+var connectionStringLog = builder.Configuration.GetConnectionString("Log_SQL_CONNECTIONSTRING");
+const string nomeTabela = "logs";
+
+var option = new ColumnOptions
+{
+	AdditionalColumns = new Collection<SqlColumn>
+	{
+		new SqlColumn {ColumnName = "Action"}
+	}
+};
+
+
+
+
+//if (configuration["Serilog:UseLog"] == "true")	
+//{
+//Serilog.Log.Logger = new LoggerConfiguration()
+//	.MinimumLevel.Information()
+//	.WriteTo.MSSqlServer(
+//	connectionString: connectionStringLog,
+//	tableName: nomeTabela,
+//	columnOptions: option,
+//	appConfiguration: configuration
+//	)
+//	.CreateLogger();
+
+var sinkOpts = new MSSqlServerSinkOptions();
+
+Serilog.Log.Logger = new LoggerConfiguration()
+			.ReadFrom.Configuration(configuration)
+			.CreateLogger();
+
+Serilog.Debugging.SelfLog.Enable(msg =>
+{
+	Debug.Print(msg);
+	Debugger.Break();
+});
+
+//var logger = new LoggerConfiguration()
+//				.ReadFrom.Configuration(configuration)
+//				.MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+//				.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Error)
+//				.MinimumLevel.Override("Serilog", LogEventLevel.Error)
+//				.WriteTo.MSSqlServer(
+//					connectionString: connectionStringLog,
+//					tableName: nomeTabela,
+//					columnOptions: option,
+//					appConfiguration: configuration
+//				)
+//				.CreateLogger();
+
+
+//.ReadFrom.Configuration(configuration).CreateLogger();
+
+
+//Start 
+//try
+//{
+//	Log.Information("Starting web host");
+//}
+//catch (Exception ex)
+//{
+//	Log.Fatal(ex, "Host terminated unexpectedly");
+//}
+//finally
+//{
+//	Log.CloseAndFlush();
+//}
+//}
+
+
+//builder.Logging.ClearProviders();
+
+builder.Host.UseSerilog();
+
 
 //Configurações DB
 var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
@@ -19,6 +111,10 @@ builder.Services.AddScoped<IFotosRepository, FotosRepository>();
 builder.Services.AddScoped<IFotosRepository, FotosRepository>();
 builder.Services.AddScoped<IPublicacaoRepository, PublicacaoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+//Add Facotry
+builder.Services.AddScoped<ILogFactory, LogFactory>();
+
 
 // ?????
 // É a melhor forma de configurar o serviço de HTTPRTEQUEST???
@@ -58,6 +154,7 @@ builder.Services.AddAuthentication(x =>
 	};
 });
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,10 +164,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 //cors
 app.UseCors("CorsPolicy-public");
 app.UseAuthorization();
-
 
 app.MapControllers();
 
