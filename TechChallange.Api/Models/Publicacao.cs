@@ -11,8 +11,9 @@ namespace TechChallangeApi.Models
         {
             Nome = nome;
             DataEnvio = DateTime.Now;
-			UsuarioId = usuarioId;
-			FotoId = fotoID;
+            UsuarioId = usuarioId;
+            FotoId = fotoID;
+            Ativa = true;
         }
 
         [Key]
@@ -25,5 +26,11 @@ namespace TechChallangeApi.Models
         public DateTime DataEnvio { get; set; }
         public Guid UsuarioId { get; set; }
         public int FotoId { get; set; }
-    }
+        public bool Ativa { get; private set; }
+
+        public void Desativar()
+        {
+            Ativa = false;
+        }
+}
 }

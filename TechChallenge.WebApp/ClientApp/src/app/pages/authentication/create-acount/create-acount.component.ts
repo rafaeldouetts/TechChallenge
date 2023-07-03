@@ -34,7 +34,8 @@ export class CreateAcountComponent implements OnInit {
       this.router.navigate([''])
     },
     err =>{
-      this._snackBar.open('Usuario ou senha invalida!');
+      debugger
+      this._snackBar.open(err.message);
     });
   }
 }

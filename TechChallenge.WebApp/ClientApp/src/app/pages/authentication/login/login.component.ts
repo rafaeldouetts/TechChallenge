@@ -41,13 +41,4 @@ export class LoginComponent implements OnInit {
   {
     this.router.navigate(['create-account']);
   }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(NovaPublicacaoComponent, {});
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
-  }
 }

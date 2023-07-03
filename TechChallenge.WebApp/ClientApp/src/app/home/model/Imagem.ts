@@ -1,5 +1,5 @@
-export class publicacao {
-    constructor(nome:string, usuario:string, urlPerfil:string, foto:foto)
+export class Publicacao {
+    constructor(nome:string, usuario:string, urlPerfil:string, foto:Foto)
     {
         this.nome = nome;
         this.usuario = usuario;
@@ -8,11 +8,12 @@ export class publicacao {
     }
     nome:string;
     usuario:string;
-    foto:foto;
+    foto:Foto;
     urlPerfil:string;
+    id:number
 }
 
-export class foto {
+export class Foto {
 
     constructor(url:string = null, publica:boolean = null, dataEnvio:Date = null)
 {
@@ -23,4 +24,6 @@ export class foto {
     url:string;
     publica:boolean;
     dataEnvio:Date;
+    id:string;
+    extensao:string;
 }

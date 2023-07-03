@@ -51,7 +51,7 @@ public class AuthenticateController : ControllerBase
         if (!result.Succeeded)
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                new ResponseModel { Success = false, Message = "Erro ao criar usuário" }
+                new ResponseModel { Success = false, Message = result.Errors.First().Description }
             );
 
         //var role = model.IsAdmin ? UserRoles.Admin : UserRoles.User;
@@ -72,7 +72,7 @@ public class AuthenticateController : ControllerBase
             var authClaims = new List<Claim>
             {
                 new (ClaimTypes.Name, user.UserName),
-                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new (JwtRegisteredClaimNames.Jti, user.Id)
             };
 
             //var userRoles = await _userManager.GetRolesAsync(user);

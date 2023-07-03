@@ -44,7 +44,21 @@ namespace TechChallangeApi.Data
             }
         }
 
-        public Publicacao GetPublicacaoById(int id)
+		public void DeletePublicacaoAnalogicamente(int id)
+		{
+            var publicacao = context.Publicacoes.Where(x => x.Id == id).FirstOrDefault();
+
+            if (publicacao == null)
+                throw new ArgumentException("Náo foi possivel encontrar a publicação"); 
+
+            publicacao.Desativar();
+
+            context.Update(publicacao);
+
+            context.SaveChanges();
+		}
+
+		public Publicacao GetPublicacaoById(int id)
         {
             try
             {
@@ -76,20 +90,41 @@ namespace TechChallangeApi.Data
             }
         }
 
-        public IEnumerable<Publicacao> GetPublicacoes(Usuario usuario)
+        public IEnumerable<object> GetPublicacoes(Guid? usuarioId)
         {
             try
             {
-            //    IEnumerable<Publicacao> publicacoesResultado = context.Publicacoes.Where(p => p.Usuario == usuario);
-            //    if (publicacoesResultado == null) throw new Exception("Publicações não encontradas para esse usuário");
-            //    return publicacoesResultado;
+                var publicacoesResultado = context.Publicacoes
+                                                  .Include(x => x.Foto)
+                                                  .Where(p => p.UsuarioId == usuarioId && p.Ativa)
+                                                  .Select(x => new { id = x.Id,  nome =  x.Nome, urlPerfil = x.Foto.Url})
+                                                  .ToList();
 
-                return null;
+                if (publicacoesResultado == null) throw new Exception("Publicações não encontradas para esse usuário");
+                return publicacoesResultado;
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-    }
+
+		public IEnumerable<Publicacao> GetPublicacoes(Guid usuarioId)
+		{
+			try
+			{
+				var publicacoesResultado = context.Publicacoes
+												  .Include(x => x.Foto)
+												  .Where(p => p.UsuarioId == usuarioId)
+												  .ToList();
+
+				if (publicacoesResultado == null) throw new Exception("Publicações não encontradas para esse usuário");
+				return publicacoesResultado;
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
+	}
 }

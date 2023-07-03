@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Foto } from 'src/app/models/Foto';
+import { Foto, Publicacao } from 'src/app/home/model/Imagem';
 import { ResponseModel } from 'src/app/models/Login';
 import { environment } from 'src/environments/environment';
 
@@ -66,6 +66,16 @@ export class AccountService {
   publicar(body:any) : Observable<any>
   {
     return this.http.post<any>(`${this.coreUrl}/publi/new`, body);
+  }
+
+  getPublicacoes(): Observable<any>
+  {
+    return this.http.get<any>(`${this.coreUrl}/publi`);
+  }
+
+  excluirPublicacao(publicacaoId:number): Observable<any>
+  {
+    return this.http.delete<any>(`${this.coreUrl}/publi/${publicacaoId}`);
   }
 
 }

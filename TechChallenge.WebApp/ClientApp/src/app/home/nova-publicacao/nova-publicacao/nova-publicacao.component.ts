@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ImagemRepository } from '../../ImagemRepository';
-import { MatDialogRef } from '@angular/material';
-import { foto, publicacao } from '../../model/Imagem';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { AccountService } from 'src/app/pages/authentication/shared/account.service';
-import { Foto } from 'src/app/models/Foto';
+import { Foto } from '../../model/Imagem';
 
 @Component({
   selector: 'app-nova-publicacao',
@@ -36,30 +35,17 @@ export class NovaPublicacaoComponent implements OnInit {
   
   constructor(
     private _formBuilder: FormBuilder, 
-    private imagemRepository:ImagemRepository,   
+    private _imagemRepository:ImagemRepository,   
     private _acountRepository:AccountService, 
-    public _dialogRef: MatDialogRef<NovaPublicacaoComponent>) { }
+    public _dialogRef: MatDialogRef<NovaPublicacaoComponent>,
+    private _snackBar: MatSnackBar) { }
 
-  ngOnInit() {
-    // this.formGroup = this._formBuilder.group({
-    //   form : this._formBuilder.array([this.init2()])
-    // });
-  }
-  // addItem() {
-  //   this.form = this.formGroup.get('form') as FormArray;
-  //   this.form.push(this.init2());
-  // }
-
-  // init2() {
-  //   return this._formBuilder.group({
-  //     descricao: new FormControl('', [Validators.required]),
-  //       });
-  // }
-
+  ngOnInit() {}
+ 
   selectFile(event: any) {
     debugger
 
-    var teste = document.getElementById('selecao-arquivo');
+    var arquivo = document.getElementById('selecao-arquivo');
 
     this.file = <File>event.target.files[0];
     if (event.target.files && event.target.files[0]) {
@@ -114,9 +100,11 @@ export class NovaPublicacaoComponent implements OnInit {
       .subscribe(data => {
         debugger
 
-        this._dialogRef.close(data);
-      })
-
-      
+        var imagem = {nome: this.descricao, urlPerfil: this.Foto.url, id: data.id}
+        this._dialogRef.close(imagem);
+      },
+      err => {
+        this._snackBar.open('Erro ao realizar publicação!');
+      });
   }
 }

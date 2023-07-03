@@ -31,15 +31,26 @@ namespace TechChallangeApi.Controllers
             _fotoController = fotoController;
         }
 
-        [HttpGet("{usuarioId}")]
+        [HttpGet()]
         [SwaggerOperation(Summary = "Publicações do usuário", Description = "Retorna Lista com todas as publicações do usuário que possue o ID informado")]
-        public IActionResult PublicacoesByUserId(Guid usuarioId)
+        public IActionResult PublicacoesByUserId()
         {
-            Usuario usuario = _usuarioRepository.GetUsuarioById(usuarioId);
-            IEnumerable<Publicacao> publicacoes = _publicacaoRepository.GetPublicacoes(usuario);
+            try
+            {
+                var idUsuario = ObterUsuarioId();
 
-            return Ok(publicacoes);
+                if (!idUsuario.HasValue)
+                    return Unauthorized();
 
+                //Usuario usuario = _usuarioRepository.GetUsuarioById(ObterUsuarioId());
+                var publicacoes = _publicacaoRepository.GetPublicacoes(idUsuario);
+
+                return Ok(publicacoes);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpPost("{usuarioId}/Date")]
@@ -50,7 +61,7 @@ namespace TechChallangeApi.Controllers
 
             DateTime dataComparacao = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            IEnumerable<Publicacao> publicacoes = _publicacaoRepository.GetPublicacoes(usuario).Where(p => p.DataEnvio.Date.CompareTo(dataComparacao.Date) == 0) ;
+            IEnumerable<Publicacao> publicacoes = _publicacaoRepository.GetPublicacoes(usuarioId).Where(p => p.DataEnvio.Date.CompareTo(dataComparacao.Date) == 0);
 
             return Ok(publicacoes);
 
@@ -60,28 +71,53 @@ namespace TechChallangeApi.Controllers
         [SwaggerOperation(Summary = "Fazer uma publicação", Description = "Envia uma foto para ser registrada no storage e no DB com as informações do usuário")]
         public async Task<IActionResult> NewPublicacao(PuclicacaoInsert puclicacao)
         {
-			var idUsuario = new Guid("DDECCA19-CB4B-4E49-81B3-DC4B16CC060E");
-		
-            Publicacao publicacao = await _publicacaoRepository.AddPublicacao(new Publicacao(puclicacao.Nome, idUsuario, puclicacao.FotoId));
+            try
+            {
+                var idUsuario = ObterUsuarioId();
 
+                if (!idUsuario.HasValue)
+                    return Unauthorized();
 
-            return NoContent();
+                Publicacao publicacao = await _publicacaoRepository.AddPublicacao(new Publicacao(puclicacao.Nome, idUsuario.Value, puclicacao.FotoId));
 
-            //var okResult = Ok(result) as OkObjectResult;
-            //if (okResult == null) return NoContent();
-
-            //var json = JsonConvert.SerializeObject(okResult.Value,Formatting.Indented);
-            //Foto foto = JsonConvert.DeserializeObject<Foto>(json);
-
-            //Publicacao publicacao = await _publicacaoRepository.AddPublicacao(new Publicacao(nome, usuario, foto));
-            //if (publicacao == null) return NoContent();
-            //return Ok(publicacao);
-
+                return Ok(publicacao);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
-		private Guid obterUsuarioId()
+        [HttpDelete("{publicacaoId}")]
+		public async Task<IActionResult> ExcluirPublicacao(int publicacaoId)
 		{
-			return new Guid(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+			try
+			{
+				var idUsuario = ObterUsuarioId();
+
+				if (!idUsuario.HasValue)
+					return Unauthorized();
+
+				_publicacaoRepository.DeletePublicacaoAnalogicamente(publicacaoId);
+
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError);
+			}
+		}
+
+		private Guid? ObterUsuarioId()
+		{
+            try
+            {
+			    return new Guid(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
 		}
 	}
 }

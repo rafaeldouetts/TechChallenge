@@ -70,14 +70,37 @@ justify-content: end;" class="file-upload">
 
 
 <div *ngIf="imagens.length == 0" class="page" style="background-color: #F5CEE6;">
-  <form  style="display: flex; justify-content: center; align-items: center; width: 15%;height: 16%;"
-  method="POST" class="formLogin">
-  <mat-icon (click)="openDialog()" style="transform: scale(6); position: absolute; top: 50%; left: 50%;">add_circle_outline</mat-icon>
+  <form style="display: flex; justify-content: center; align-items: center; width: 15%;height: 16%;" method="POST"
+    class="formLogin">
+    <mat-icon (click)="openDialog()"
+      style="transform: scale(6); position: absolute; top: 50%; left: 50%;">add_circle_outline</mat-icon>
   </form>
 </div>
 
-<div style="background-color: white;" *ngIf="imagens.length > 0">
-  <div style="width: 30%;" *ngFor="let imagem of imagens">
-  <app-publicacao [descricao]="imagem.nome" [url]="imagem.urlPerfil"></app-publicacao>
+
+
+
+<form style="background-color: white; display: flex; flex-wrap: wrap; flex-direction: column; padding: 2%;" *ngIf="imagens.length > 0">
+
+    <div name="botao" style="display: flex; justify-content: end;">
+      <button mat-raised-button color="primary" class="w-116" type="button" (click)="openDialog()">
+        Adicionar
+      </button>
+    </div>
+
+
+    <!-- <div style="width: 20%; height: 20%; display: flex; flex-wrap: wrap; flex-direction: column;" *ngFor="let imagem of imagens">
+      <app-publicacao [descricao]="imagem.nome" [url]="imagem.urlPerfil"></app-publicacao>
+    </div> --> 
+
+    <div style="width: 100%; display: flex; flex-wrap: wrap;">
+    <div style="width: 20%; border: solid; margin: 2%;" *ngFor="let imagem of imagens">
+      <app-publicacao style="overflow: hidden !important; display: flex; flex-direction: column; height: 100% !important;" [id]="imagem.id" [descricao]="imagem.nome" [url]="imagem.urlPerfil" (exluir)="excluirPublicacao($event)"></app-publicacao>
+    </div>
+  </div>
+</form>
+<!-- <div *ngIf="imagens.length > 0">
+<div *ngFor="let imagem of imagens">
+  {{imagem.url}}
 </div>
-</div>
+</div> -->
