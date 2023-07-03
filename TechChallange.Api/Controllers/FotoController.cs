@@ -58,7 +58,6 @@ namespace TechChallangeApi.Controllers
         public async Task<IActionResult> NewFoto(IFormFile formFile)
 		{
             // Enviar a requisição e obter a resposta
-		    //var logPost = _logFactory.Create(requestURLPost, HttpMethod.Post, content, _usuarioId);
 
 			// Adicione o conteúdo do arquivo ao HttpContent
 			var fileContent = new StreamContent(formFile.OpenReadStream());
