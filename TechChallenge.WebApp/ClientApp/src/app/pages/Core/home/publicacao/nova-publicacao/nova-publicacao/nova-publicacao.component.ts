@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ImagemRepository } from '../../ImagemRepository';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { AccountService } from 'src/app/pages/authentication/shared/account.service';
-import { Foto } from '../../model/Imagem';
+import { Foto } from 'src/app/models/Foto';
+import { AccountService } from 'src/app/pages/Authentication/shared/account.service';
 
 @Component({
   selector: 'app-nova-publicacao',
@@ -25,9 +24,6 @@ export class NovaPublicacaoComponent implements OnInit {
 
   Foto:Foto = new Foto();
 
-  // firstFormGroup = this._formBuilder.group({
-  //   firstCtrl: ['', Validators.required],
-  // });
   secondFormGroup = this._formBuilder.group({
     descricao: ['', Validators.required],
   });
@@ -35,7 +31,6 @@ export class NovaPublicacaoComponent implements OnInit {
   
   constructor(
     private _formBuilder: FormBuilder, 
-    private _imagemRepository:ImagemRepository,   
     private _acountRepository:AccountService, 
     public _dialogRef: MatDialogRef<NovaPublicacaoComponent>,
     private _snackBar: MatSnackBar) { }
@@ -43,10 +38,6 @@ export class NovaPublicacaoComponent implements OnInit {
   ngOnInit() {}
  
   selectFile(event: any) {
-    debugger
-
-    var arquivo = document.getElementById('selecao-arquivo');
-
     this.file = <File>event.target.files[0];
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -59,30 +50,17 @@ export class NovaPublicacaoComponent implements OnInit {
 
 
   onFileSelected(event: any, stepper) {
-    debugger
-
     const file:File = event.target.files[0];
 
         if (file) {
-
-            // this.fileName = file.name;
-
-            // const formData = new FormData();
-
-            // formData.append("thumbnail", file);
-
            this._acountRepository.adicionar(file)
            .subscribe(data => 
             {
-              debugger
               this.Foto = data;
               this.Foto.url = data.url + data.extensao
             });
 
            stepper.next();
-            // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-
-            // upload$.subscribe();
         }
   }
 
@@ -93,13 +71,10 @@ export class NovaPublicacaoComponent implements OnInit {
 
   uploadFile()
   {
-      debugger
     const body =  {nome: this.descricao, fotoId: this.Foto.id};
 
       this._acountRepository.publicar(body)
       .subscribe(data => {
-        debugger
-
         var imagem = {nome: this.descricao, urlPerfil: this.Foto.url, id: data.id}
         this._dialogRef.close(imagem);
       },

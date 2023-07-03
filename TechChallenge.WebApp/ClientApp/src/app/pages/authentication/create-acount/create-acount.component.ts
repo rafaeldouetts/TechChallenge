@@ -28,13 +28,11 @@ export class CreateAcountComponent implements OnInit {
   cadastrar()
   {
     this.accountService.Cadastrar(this.form.value).subscribe(result => {
-      debugger
       this._snackBar.open('Usuario Cadastrado com sucesso!');
 
       this.router.navigate([''])
     },
     err =>{
-      debugger
       this._snackBar.open(err.message);
     });
   }
