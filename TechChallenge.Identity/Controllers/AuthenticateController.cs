@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace TechChallenge.Identity.Controllers;
 
@@ -14,15 +17,18 @@ public class AuthenticateController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<IdentityUser> _userManager;
-    //private readonly RoleManager<IdentityRole> _roleManager;
+	private readonly HttpClient _httpClient;
+	//private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AuthenticateController(
+	public AuthenticateController(
         IConfiguration configuration,
-        UserManager<IdentityUser> userManager)
-        //RoleManager<IdentityRole> roleManager)
+        UserManager<IdentityUser> userManager,
+        HttpClient httpClient)
+    //RoleManager<IdentityRole> roleManager)
     {
         _configuration = configuration;
         _userManager = userManager;
+        _httpClient = httpClient;
         //_roleManager = roleManager;
 
     }
@@ -42,7 +48,7 @@ public class AuthenticateController : ControllerBase
         IdentityUser user = new()
         {
             SecurityStamp = Guid.NewGuid().ToString(),
-            Email = model.Email,    
+            Email = model.Email,
             UserName = model.UserName
         };
 
@@ -53,6 +59,10 @@ public class AuthenticateController : ControllerBase
                 StatusCodes.Status500InternalServerError,
                 new ResponseModel { Success = false, Message = result.Errors.First().Description }
             );
+
+
+        var usuario = new Usuario(user.UserName, user.Email, new Guid(user.Id));
+        await CriarUsuarioCore(usuario);
 
         //var role = model.IsAdmin ? UserRoles.Admin : UserRoles.User;
         //await AddToRoleAsync(user, role);
@@ -114,6 +124,33 @@ public class AuthenticateController : ControllerBase
         };
 
     }
+
+    private async Task CriarUsuarioCore(Usuario usuario) 
+    {
+		try
+		{
+			// Criar uma requisição HTTP POST com o corpo e cabeçalhos desejados
+			var requestURLPost = "http://localhost:5002/Usuario";
+
+			//LogRaw("Integração Core API - Criar Usuario", JsonConvert.SerializeObject(content), true);
+
+			var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+			
+			HttpResponseMessage responsePost = await _httpClient.PostAsync(requestURLPost, content);
+
+            if (!responsePost.IsSuccessStatusCode) return;
+
+			string resultPost = await responsePost.Content.ReadAsStringAsync();
+
+			//LogRaw("Integração Core API - Criar Usuario", resultPost);
+		}
+		catch (Exception e)
+		{
+			//LogRaw("Integração Core API - Criar Usuario", e.Message);
+		}
+	}
+        
+
     ///TODO: Verificar se iremos utilizar roles
     //private async Task AddToRoleAsync(IdentityUser user, string role)
     //{

@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using NSE.Identidade.API.Extensions;
+using TechChallenge.Identity.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,9 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
+
+//HttpClient
+builder.Services.AddHttpClient<AuthenticateController>();
 
 //cors
 var politica = "CorsPolicy-public";

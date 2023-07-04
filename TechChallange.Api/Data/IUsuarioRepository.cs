@@ -4,7 +4,7 @@ namespace TechChallangeApi.Data
 {
     public interface IUsuarioRepository
     {
-        Task<Usuario> AddUsuario(Usuario usuario);
+        Task AddUsuario(Usuario usuario);
         void DeleteUsuario(Guid id);
         Usuario GetUsuarioById(Guid id);
     }

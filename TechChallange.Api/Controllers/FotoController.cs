@@ -79,7 +79,7 @@ namespace TechChallangeApi.Controllers
 
         }
 
-        public async Task<Foto> GetFoto(string resultPost, StreamContent fileContent)
+        private async Task<Foto> GetFoto(string resultPost, StreamContent fileContent)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace TechChallangeApi.Controllers
 			}
 }
 
-        public async Task<string> Post(IFormFile formFile, MultipartFormDataContent content)
+        private async Task<string> Post(IFormFile formFile, MultipartFormDataContent content)
         {
 			try
 			{
