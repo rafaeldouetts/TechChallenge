@@ -1,16 +1,8 @@
 using TechChallenge.Identity.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using NSE.Identidade.API.Extensions;
 using TechChallenge.Identity.Controllers;
-using System.Collections.ObjectModel;
-using Serilog.Sinks.MSSqlServer;
-using Serilog;
-using System.Diagnostics;
+using TechChallenge.Identity.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,78 +12,15 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
 });
 
-//AddIdentity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationContext>()
-	.AddErrorDescriber<IdentityMensagensPortugues>()
-	.AddDefaultTokenProviders();
-
-//AddAuthentication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-//AddJwtBearer
-.AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidAudience = builder.Configuration["JWT:ValidAudience"],
-        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
-    };
-});
 
 //HttpClient
 builder.Services.AddHttpClient<AuthenticateController>();
 
+builder.Services.AddDILogs(builder);
 
-////Log configuration
-var configuration = new ConfigurationBuilder()
-	.SetBasePath(Directory.GetCurrentDirectory())
-			.AddJsonFile("appsettings.json")
-			.Build();
+builder.Services.AddDIAuthentication(builder);
 
-var connectionStringLog = builder.Configuration.GetConnectionString("Log_SQL_CONNECTIONSTRING");
-
-var option = new ColumnOptions
-{
-	AdditionalColumns = new Collection<SqlColumn>
-	{
-		new SqlColumn {ColumnName = "Action"}
-	}
-};
-
-var sinkOpts = new MSSqlServerSinkOptions();
-
-Serilog.Log.Logger = new LoggerConfiguration()
-			.ReadFrom.Configuration(configuration)
-			.CreateLogger();
-
-Serilog.Debugging.SelfLog.Enable(msg =>
-{
-	Debug.Print(msg);
-	Debugger.Break();
-});
-
-builder.Host.UseSerilog();
-
-//cors
-var politica = "CorsPolicy-public";
-
-builder.Services.AddCors(option => option.AddPolicy(politica, builder => builder.WithOrigins("http://localhost:4200", "https://localhost")
-	 .AllowAnyMethod()
-				.AllowAnyHeader()
-				.AllowCredentials()
-				.Build()));
+builder.Services.AddDICors(builder);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
