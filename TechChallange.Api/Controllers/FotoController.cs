@@ -79,7 +79,7 @@ namespace TechChallangeApi.Controllers
 
         }
 
-        public async Task<Foto> GetFoto(string resultPost, StreamContent fileContent)
+        private async Task<Foto> GetFoto(string resultPost, StreamContent fileContent)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace TechChallangeApi.Controllers
 			}
 }
 
-        public async Task<string> Post(IFormFile formFile, MultipartFormDataContent content)
+        private async Task<string> Post(IFormFile formFile, MultipartFormDataContent content)
         {
 			try
 			{
@@ -132,7 +132,11 @@ namespace TechChallangeApi.Controllers
 
         private Guid obterUsuarioId()
         {
-            return new Guid(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+            var usuarioId = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
+
+            if (usuarioId == null) return null;
+
+			return new Guid(usuarioId);
 		}
 
         private void LogRaw(string title, string log, bool request = false)
