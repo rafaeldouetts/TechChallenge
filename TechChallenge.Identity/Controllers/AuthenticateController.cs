@@ -90,7 +90,7 @@ public class AuthenticateController : ControllerBase
             //foreach (var userRole in userRoles)
             //    authClaims.Add(new(ClaimTypes.Role, userRole));
 
-            return Ok(new ResponseModel { Data = GetToken(authClaims) });
+            return Ok(new ResponseModel { Data = GetToken(authClaims, model.UserName) });
         }
 
         return Unauthorized();
@@ -103,7 +103,7 @@ public class AuthenticateController : ControllerBase
     public string GetAuthenticated() => $"Usuário autenticado: {User?.Identity?.Name} ";
 
 
-    private TokenModel GetToken(List<Claim> authClaims)
+    private TokenModel GetToken(List<Claim> authClaims, string nome)
     {
         //obtém a chave de assinatura do JWT
         var authSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
@@ -120,7 +120,8 @@ public class AuthenticateController : ControllerBase
         return new()
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
-            ValidTo = token.ValidTo
+            ValidTo = token.ValidTo,
+            Nome = nome
         };
 
     }

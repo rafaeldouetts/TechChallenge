@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Foto } from 'src/app/models/Foto';
-import { ResponseModel } from 'src/app/models/Login';
+import { ResponseModel, ResponseTokenModel } from 'src/app/models/Login';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -23,9 +23,9 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  logar(formData)
+  logar(formData) : Observable<ResponseTokenModel>
   {
-    return this.http.post<ResponseModel>(`${this.baseUrl}/api/Authenticate/login`, formData, this.httpOptions);
+    return this.http.post<ResponseTokenModel>(`${this.baseUrl}/api/Authenticate/login`, formData, this.httpOptions);
   }
 
   Cadastrar(formData): Observable<ResponseModel>

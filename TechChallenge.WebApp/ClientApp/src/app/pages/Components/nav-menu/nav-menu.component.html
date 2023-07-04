@@ -3,9 +3,10 @@
     <div class="container">
       <div>
         <img style="height: 60px;" src="https://img.freepik.com/vetores-premium/homem-perfil-caricatura_18591-58482.jpg" class="imgPlaceholder">
-        <a class="navbar-brand" [routerLink]="['/']">TechChallenge</a>
+        <span>{{token.nome}}</span>
       </div>
-
+      
+      <a class="navbar-brand" [routerLink]="['/']">TechChallenge</a>
       <span (click)="Sair()"> Sair</span>
     </div>
   </nav>

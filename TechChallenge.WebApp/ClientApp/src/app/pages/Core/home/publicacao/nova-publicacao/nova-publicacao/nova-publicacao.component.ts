@@ -65,6 +65,13 @@ export class NovaPublicacaoComponent implements OnInit {
   }
 
   next(stepper){
+
+    if(!this.secondFormGroup.get('descricao').value)
+    {
+      this._snackBar.open("Por favor preencha uma descrição!")
+      return;
+    }
+
     this.descricao = this.secondFormGroup.get('descricao').value;
     stepper.next();
   }

@@ -1,3 +1,4 @@
+import { Token } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { localStorageService } from 'src/app/shared/localStorageService';
 
@@ -8,9 +9,14 @@ import { localStorageService } from 'src/app/shared/localStorageService';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  token;
 
   constructor(private _localStorageService: localStorageService){
 
+    this.token = this._localStorageService.getToken();
+
+    
+    debugger
   }
 
   collapse() {

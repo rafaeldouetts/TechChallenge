@@ -1,8 +1,21 @@
-<div *ngIf="url" style="width: 100%; margin-top: 3%;">
+<!-- <div *ngIf="url" style="width: 100%; margin-top: 3%;">
     <img style="width: 100%;     height: 200px;" [src]="url" *ngIf="url" class="imgPlaceholder">
 </div>
 
 
 <p style="margin: 0px;">{{descricao}}</p>
-<mat-icon *ngIf="!readonly" (click)="Excluir()" style="color: red;">delete icon</mat-icon>
+<mat-icon *ngIf="!readonly" (click)="Excluir()" style="color: red;">delete icon</mat-icon> -->
 
+
+
+<mat-card style="width: 100%; height: 100%; background-color: #3f51b5;" *ngIf="url">
+    <mat-card-header style="width: 100%; height: 15%;">
+      <mat-card-title style="color: white">{{descricao}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="width: 100%; height: 70%;">
+        <img style="width: 100%; height: 100%;" [src]="url" *ngIf="url" class="imgPlaceholder">
+    </mat-card-content>
+    <mat-card-actions style="width: 100%; height: 15%;">
+        <mat-icon *ngIf="!readonly" (click)="Excluir()" style="color: red;">delete icon</mat-icon>
+    </mat-card-actions>
+  </mat-card>
