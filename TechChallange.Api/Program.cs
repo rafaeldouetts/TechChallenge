@@ -27,7 +27,6 @@ var configuration = new ConfigurationBuilder()
 			.Build();
 
 var connectionStringLog = builder.Configuration.GetConnectionString("Log_SQL_CONNECTIONSTRING");
-const string nomeTabela = "logs";
 
 var option = new ColumnOptions
 {
@@ -36,21 +35,6 @@ var option = new ColumnOptions
 		new SqlColumn {ColumnName = "Action"}
 	}
 };
-
-
-
-
-//if (configuration["Serilog:UseLog"] == "true")	
-//{
-//Serilog.Log.Logger = new LoggerConfiguration()
-//	.MinimumLevel.Information()
-//	.WriteTo.MSSqlServer(
-//	connectionString: connectionStringLog,
-//	tableName: nomeTabela,
-//	columnOptions: option,
-//	appConfiguration: configuration
-//	)
-//	.CreateLogger();
 
 var sinkOpts = new MSSqlServerSinkOptions();
 
@@ -63,41 +47,6 @@ Serilog.Debugging.SelfLog.Enable(msg =>
 	Debug.Print(msg);
 	Debugger.Break();
 });
-
-//var logger = new LoggerConfiguration()
-//				.ReadFrom.Configuration(configuration)
-//				.MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-//				.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Error)
-//				.MinimumLevel.Override("Serilog", LogEventLevel.Error)
-//				.WriteTo.MSSqlServer(
-//					connectionString: connectionStringLog,
-//					tableName: nomeTabela,
-//					columnOptions: option,
-//					appConfiguration: configuration
-//				)
-//				.CreateLogger();
-
-
-//.ReadFrom.Configuration(configuration).CreateLogger();
-
-
-//Start 
-//try
-//{
-//	Log.Information("Starting web host");
-//}
-//catch (Exception ex)
-//{
-//	Log.Fatal(ex, "Host terminated unexpectedly");
-//}
-//finally
-//{
-//	Log.CloseAndFlush();
-//}
-//}
-
-
-//builder.Logging.ClearProviders();
 
 builder.Host.UseSerilog();
 

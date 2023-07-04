@@ -7,6 +7,10 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using NSE.Identidade.API.Extensions;
 using TechChallenge.Identity.Controllers;
+using System.Collections.ObjectModel;
+using Serilog.Sinks.MSSqlServer;
+using Serilog;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +52,37 @@ builder.Services.AddAuthentication(options =>
 
 //HttpClient
 builder.Services.AddHttpClient<AuthenticateController>();
+
+
+////Log configuration
+var configuration = new ConfigurationBuilder()
+	.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json")
+			.Build();
+
+var connectionStringLog = builder.Configuration.GetConnectionString("Log_SQL_CONNECTIONSTRING");
+
+var option = new ColumnOptions
+{
+	AdditionalColumns = new Collection<SqlColumn>
+	{
+		new SqlColumn {ColumnName = "Action"}
+	}
+};
+
+var sinkOpts = new MSSqlServerSinkOptions();
+
+Serilog.Log.Logger = new LoggerConfiguration()
+			.ReadFrom.Configuration(configuration)
+			.CreateLogger();
+
+Serilog.Debugging.SelfLog.Enable(msg =>
+{
+	Debug.Print(msg);
+	Debugger.Break();
+});
+
+builder.Host.UseSerilog();
 
 //cors
 var politica = "CorsPolicy-public";

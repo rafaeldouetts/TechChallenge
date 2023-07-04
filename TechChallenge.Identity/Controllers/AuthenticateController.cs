@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using Serilog;
 
 namespace TechChallenge.Identity.Controllers;
 
@@ -133,31 +134,37 @@ public class AuthenticateController : ControllerBase
 			// Criar uma requisição HTTP POST com o corpo e cabeçalhos desejados
 			var requestURLPost = "http://localhost:5002/Usuario";
 
-			//LogRaw("Integração Core API - Criar Usuario", JsonConvert.SerializeObject(content), true);
+            var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
 
-			var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+            LogRaw("Integração Core API - Criar Usuario", JsonConvert.SerializeObject(content), true);
 			
 			HttpResponseMessage responsePost = await _httpClient.PostAsync(requestURLPost, content);
 
-            if (!responsePost.IsSuccessStatusCode) return;
+            LogRaw("Integração Core API - Criar Usuario", JsonConvert.SerializeObject(responsePost));
 
-			string resultPost = await responsePost.Content.ReadAsStringAsync();
-
-			//LogRaw("Integração Core API - Criar Usuario", resultPost);
-		}
+            return;
+        }
 		catch (Exception e)
 		{
-			//LogRaw("Integração Core API - Criar Usuario", e.Message);
-		}
+            Log.Fatal(string.Format("Process: {0} Message: {1}", "Cadastro de usuarios na API CORE", e.Message));
+        }
 	}
-        
 
-    ///TODO: Verificar se iremos utilizar roles
-    //private async Task AddToRoleAsync(IdentityUser user, string role)
-    //{
-    //    if (!await _roleManager.RoleExistsAsync(role))
-    //        await _roleManager.CreateAsync(new(role));
+	private void LogRaw(string title, string log, bool request = false)
+	{
+		var metodo = "integração Minimal API";
+		var mensagem = $"- [{title}] - {(request ? "[REQUEST]" : "[RESPONSE]}")} - {log}";
 
-    //    await _userManager.AddToRoleAsync(user, role);
-    //}
+		Log.Information(string.Format("Process: {0} Message: {1}", metodo, mensagem));
+	}
+
+
+	///TODO: Verificar se iremos utilizar roles
+	//private async Task AddToRoleAsync(IdentityUser user, string role)
+	//{
+	//    if (!await _roleManager.RoleExistsAsync(role))
+	//        await _roleManager.CreateAsync(new(role));
+
+	//    await _userManager.AddToRoleAsync(user, role);
+	//}
 }
