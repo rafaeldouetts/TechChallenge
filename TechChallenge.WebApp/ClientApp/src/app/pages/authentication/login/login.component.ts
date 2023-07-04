@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { localStorageService } from 'src/app/shared/localStorageService';
-import { AccountService } from '../shared/account.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
-import { NovaPublicacaoComponent } from 'src/app/home/nova-publicacao/nova-publicacao/nova-publicacao.component';
+import { AccountService } from '../shared/account.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,9 +26,7 @@ export class LoginComponent implements OnInit {
 
   adicionar()
   {
-    debugger
     this.accountService.logar(this.form.value).subscribe(result => {
-      debugger
       this.localStorageService.setToken(result.data);
       this.router.navigate([''])
     },
@@ -40,14 +38,5 @@ export class LoginComponent implements OnInit {
   cadastrar()
   {
     this.router.navigate(['create-account']);
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(NovaPublicacaoComponent, {});
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
   }
 }

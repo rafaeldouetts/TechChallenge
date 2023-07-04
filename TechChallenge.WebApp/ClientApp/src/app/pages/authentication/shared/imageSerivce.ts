@@ -15,8 +15,6 @@ export class ImageService
 
     adicionar(formData) : Observable<any>
     {
-        // return this.http.post("/api/thumbnail-upload", formData);
-
         return this.http.post<any>(`${this.baseUrl}/Upload`, formData, this.httpOptions);
     }
 }

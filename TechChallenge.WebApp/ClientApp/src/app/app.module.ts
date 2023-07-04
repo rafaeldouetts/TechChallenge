@@ -5,30 +5,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSlideToggleModule, MatSnackBarModule, MatStepperModule } from '@angular/material';
-import { ImagemRepository } from './home/ImagemRepository';
-import { LoginComponent } from './pages/authentication/login/login.component';
-import { CreateAcountComponent } from './pages/authentication/create-acount/create-acount.component';
-import { AuthenticationComponent } from './pages/authentication/authentication/authentication.component';
-import { AuthGuard } from './pages/authentication/shared/auth.guard';
+
 import { localStorageService } from './shared/localStorageService';
-import { ErrorRequestInterceptor } from './pages/authentication/shared/Error.Interceptor';
-import { TokenInterceptor } from './pages/authentication/shared/jwt.interceptor';
-import { NovaPublicacaoComponent } from './home/nova-publicacao/nova-publicacao/nova-publicacao.component';
-import { PublicacaoComponent } from './home/publicacao/publicacao.component';
+import { NavMenuComponent } from './pages/Components/nav-menu/nav-menu.component';
+import { HomeComponent } from './pages/Core/home/home.component';
+import { AuthenticationComponent } from './pages/Authentication/authentication/authentication.component';
+import { LoginComponent } from './pages/Authentication/login/login.component';
+import { NovaPublicacaoComponent } from './pages/Core/home/publicacao/nova-publicacao/nova-publicacao/nova-publicacao.component';
+import { CreateAcountComponent } from './pages/Authentication/create-acount/create-acount.component';
+import { PublicacaoComponent } from './pages/Core/home/publicacao/publicacao.component';
+import { AuthGuard } from './pages/Authentication/shared/auth.guard';
+import { ErrorRequestInterceptor } from './pages/Authentication/shared/Error.Interceptor';
+import { TokenInterceptor } from './pages/Authentication/shared/jwt.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     AuthenticationComponent,
     LoginComponent,
     NovaPublicacaoComponent,
@@ -46,8 +43,6 @@ import { PublicacaoComponent } from './home/publicacao/publicacao.component';
     MatStepperModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full', children:[
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent}
     ],
     canActivate:[AuthGuard]
 
@@ -71,7 +66,7 @@ import { PublicacaoComponent } from './home/publicacao/publicacao.component';
     MatSlideToggleModule
 
   ],
-  providers: [localStorageService, ImagemRepository],
+  providers: [localStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

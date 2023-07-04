@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using NSE.Identidade.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,8 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 //AddIdentity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationContext>()
-    .AddDefaultTokenProviders();
+	.AddErrorDescriber<IdentityMensagensPortugues>()
+	.AddDefaultTokenProviders();
 
 //AddAuthentication
 builder.Services.AddAuthentication(options =>

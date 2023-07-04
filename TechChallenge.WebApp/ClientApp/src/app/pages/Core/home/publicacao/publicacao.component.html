@@ -1,0 +1,8 @@
+<div *ngIf="url" style="width: 100%; margin-top: 3%;">
+    <img style="width: 100%;     height: 200px;" [src]="url" *ngIf="url" class="imgPlaceholder">
+</div>
+
+
+<p style="margin: 0px;">{{descricao}}</p>
+<mat-icon *ngIf="!readonly" (click)="Excluir()" style="color: red;">delete icon</mat-icon>
+

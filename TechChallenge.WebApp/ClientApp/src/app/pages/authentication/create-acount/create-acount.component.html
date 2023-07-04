@@ -1,33 +1,27 @@
-<!-- <form [formGroup]="form">
-	<div class="form-group ls-login-user">
-		<label for="userLogin">Usuario</label>
-		<input  formControlName="userName" class="form-control ls-login-bg-user input-lg" id="userLogin" type="text" aria-label="Usuario" placeholder="Usuario">
-	</div>
-
-	<div class="form-group ls-login-password">
-		<label for="userPassword">Senha</label>
-		<input  formControlName="password" class="form-control ls-login-bg-password input-lg" id="userPassword" type="password" aria-label="Senha" placeholder="Senha">
-	</div>
-
-    <div class="form-group ls-login-password">
-		<label for="userPassword">Email</label>
-		<input  formControlName="email" class="form-control ls-login-bg-password input-lg" id="userEmail" type="email" aria-label="email" placeholder="E-mail">
-	</div>
-	
-<input (click)="adicionar()" value="Cadastrar" class="btn btn-primary btn-lg btn-block">
-</form> -->
-
-
 <div class="page" style="background-color: #F5CEE6;">
 	<form [formGroup]="form" method="POST" class="formLogin">
 		<h1 style="color: #000080;">Cadastrar</h1>
 		<p>Digite os seus dados de acesso no campo abaixo.</p>
-		<label style="color: #000080;" for="email">Usuario</label>
-		<input formControlName="userName" type="email" placeholder="Digite seu nome" autofocus="true" />
-		<label style="color: #000080;" for="email">E-mail</label>
-		<input formControlName="email" type="email" placeholder="Digite seu e-mail" autofocus="true" />
-		<label style="color: #000080;" for="password">Senha</label>
-		<input formControlName="password" type="password" placeholder="Digite sua senha" />
-		<input (click)="cadastrar()" value="Cadastrar" class="btn" />
+		
+		<div style="display: flex; flex-direction: column;">
+			<label style="color: #000080;" for="email">Usuario</label>
+			<input style="margin-bottom: 0px;" formControlName="userName" type="email" placeholder="Digite seu nome" autofocus="true" />
+			<mat-error *ngIf="form.get('userName')?.touched && form.get('userName')?.errors?.required">Nome obrigatório</mat-error>
+		</div>
+
+		<div style="display: flex; flex-direction: column;">
+			<label style="color: #000080; margin-top: 5px;" for="email">E-mail</label>
+			<input style="margin-bottom: 0px;" formControlName="email" type="email" placeholder="Digite seu e-mail" autofocus="true" />
+			<mat-error *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">Email obrigatório</mat-error>
+			<mat-error *ngIf="form.get('email')?.touched && form.get('email')?.errors?.email">Email em formato invalido. </mat-error>
+		</div>
+	
+		<div style="display: flex; flex-direction: column;">
+			<label style="color: #000080;  margin-top: 5px;" for="password">Senha</label>
+			<input style="margin-bottom: 0px;" formControlName="password" type="password" placeholder="Digite sua senha" />
+			<mat-error *ngIf="form.get('password')?.touched && form.get('password')?.errors?.required">Senha obrigatório</mat-error>
+		</div>
+
+		<input [disabled]="!form.valid" style="margin-top: 15px !important;" (click)="cadastrar()" value="Cadastrar" class="btn" />
 	</form>
 </div>

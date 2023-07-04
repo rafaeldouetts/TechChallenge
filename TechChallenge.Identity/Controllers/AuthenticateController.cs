@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
 
 namespace TechChallenge.Identity.Controllers;
 
@@ -15,13 +14,17 @@ public class AuthenticateController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<IdentityUser> _userManager;
-    
+    //private readonly RoleManager<IdentityRole> _roleManager;
+
     public AuthenticateController(
         IConfiguration configuration,
         UserManager<IdentityUser> userManager)
+        //RoleManager<IdentityRole> roleManager)
     {
         _configuration = configuration;
         _userManager = userManager;
+        //_roleManager = roleManager;
+
     }
 
     [HttpPost]
@@ -48,8 +51,11 @@ public class AuthenticateController : ControllerBase
         if (!result.Succeeded)
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                new ResponseModel { Success = false, Message = "Erro ao criar usuário" }
+                new ResponseModel { Success = false, Message = result.Errors.First().Description }
             );
+
+        //var role = model.IsAdmin ? UserRoles.Admin : UserRoles.User;
+        //await AddToRoleAsync(user, role);
 
         return Ok(new ResponseModel { Message = "Usuário criado com sucesso!" });
     }
@@ -66,8 +72,13 @@ public class AuthenticateController : ControllerBase
             var authClaims = new List<Claim>
             {
                 new (ClaimTypes.Name, user.UserName),
-                new (JwtRegisteredClaimNames.Jti, user.Id) //Guid.NewGuid().ToString())
+                new (JwtRegisteredClaimNames.Jti, user.Id)
             };
+
+            //var userRoles = await _userManager.GetRolesAsync(user);
+
+            //foreach (var userRole in userRoles)
+            //    authClaims.Add(new(ClaimTypes.Role, userRole));
 
             return Ok(new ResponseModel { Data = GetToken(authClaims) });
         }
@@ -103,4 +114,12 @@ public class AuthenticateController : ControllerBase
         };
 
     }
+    ///TODO: Verificar se iremos utilizar roles
+    //private async Task AddToRoleAsync(IdentityUser user, string role)
+    //{
+    //    if (!await _roleManager.RoleExistsAsync(role))
+    //        await _roleManager.CreateAsync(new(role));
+
+    //    await _userManager.AddToRoleAsync(user, role);
+    //}
 }

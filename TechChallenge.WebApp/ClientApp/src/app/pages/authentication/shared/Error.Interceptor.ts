@@ -19,6 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this._snackBar.open('Sessão Expirada', 'OK');
                 window.localStorage.removeItem('token');
                 this.router.navigate(['']);
+                window.location.reload();
             }
 
             const error = err.error ? err.error : err.statusText;
