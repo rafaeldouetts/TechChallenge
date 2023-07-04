@@ -20,7 +20,7 @@ Detalhes da implementação e execução: [Readme do projeto Front-end](https://
   - Autenticação e autorização do sistema
   - Validação de token
 
-Detalhes da implementação e execução: [Readme do projeto API com Identity](https://github.com/JairJr/TechChallenge/tree/master/TechChallenge.Identity#readme)
+Detalhes da implementação e execução: [Readme do projeto API com Identity](https://github.com/JairJr/TechChallenge/blob/master/TechChallenge.Identity/README.md)
 
 ### Recurso 3: API AspNetCore em .NET 7 com as implementações das regras de negócio e validações (Business Core)
 - Implementa a conexão com banco de dados SQL Server no Azure e oferece as seguintes funcionalidades:
@@ -28,12 +28,12 @@ Detalhes da implementação e execução: [Readme do projeto API com Identity](h
   - Relacionamento entre as imagens e o usuário
   - Persistência de dados através do Entity Framework Core 7.05
 
-Detalhes da implementação e execução: [Readme do projeto API Business Core](https://github.com/JairJr/TechChallenge/blob/master/TechChallangeApi/README.md)
+Detalhes da implementação e execução: [Readme do projeto API Business Core](https://github.com/JairJr/TechChallenge/blob/master/TechChallange.Api/README.md)
 
 ### Recurso 4: API Mínima em .NET 7
 - Responsável por salvar arquivos no Azure Storage e recuperar um SASToken com validade de 1 hora para acesso ao arquivo.
 
-Detalhes da implementação e execução: [Readme da API Minima para genrenciamento de arquivos no Azure Storage Acount](https://github.com/JairJr/TechChallenge/blob/master/TechChallengeMinimalApi/README.md)
+Detalhes da implementação e execução: [Readme da API Minima para genrenciamento de arquivos no Azure Storage Acount](https://github.com/JairJr/TechChallenge/blob/master/TechChallenge.MinimalApi/README.md)
 
 A imagem abaixo representa a arquitetura definida como referência no início do projeto:
 
