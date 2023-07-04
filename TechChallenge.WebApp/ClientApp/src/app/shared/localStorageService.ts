@@ -15,4 +15,9 @@ export class localStorageService {
     {
         return JSON.parse( window.localStorage.getItem('token'));
     }
+
+    removerToken() : void 
+    {
+        window.localStorage.clear();
+    }
 }

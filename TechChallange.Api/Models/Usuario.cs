@@ -10,7 +10,14 @@ namespace TechChallangeApi.Models
             Email = email;
         }
 
-        [Key]
+		public Usuario(string nome, string email, Guid id)
+		{
+			Nome = nome;
+			Email = email;
+            Id = id;
+		}
+
+		[Key]
         [Required]
         public Guid Id { get; set; }
         public string Nome { get; set; }

@@ -13,18 +13,12 @@ namespace TechChallangeApi.Data
             this.context = context;
         }
 
-        public async Task<Usuario> AddUsuario(Usuario usuario)
+        public async Task AddUsuario(Usuario usuario)
         {
             try
             {
-                //if (usuario == null) throw new ArgumentNullException(nameof(usuario));
-                //await context.Set<Usuario>().AddAsync(usuario);
-                //await context.SaveChangesAsync();
-                //Usuario usuarioResultado = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuario.Id);
-                //if (usuarioResultado == null) throw new Exception("Usuario não encontrada");
-                //return usuarioResultado;
-
-                return null;
+                var result = await context.Set<Usuario>().AddAsync(usuario);
+                await context.SaveChangesAsync();
             }
             catch (Exception e)
             {

@@ -18,7 +18,7 @@
     </div>
 
     <div style="width: 100%; display: flex; flex-wrap: wrap;">
-    <div style="width: 20%; border: solid; margin: 2%;" *ngFor="let imagem of imagens">
+    <div style="width: 20%; margin: 2%;" *ngFor="let imagem of imagens">
       <app-publicacao style="overflow: hidden !important; display: flex; flex-direction: column; height: 100% !important;" [id]="imagem.id" [descricao]="imagem.nome" [url]="imagem.urlPerfil" (exluir)="excluirPublicacao($event)"></app-publicacao>
     </div>
   </div>

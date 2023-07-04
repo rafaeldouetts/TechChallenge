@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from '../shared/account.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { AccountService } from '../shared/account.service';
 
 @Component({
   selector: 'app-create-acount',

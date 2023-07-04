@@ -73,6 +73,8 @@ namespace TechChallangeApi.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(puclicacao.Nome)) return BadRequest();
+
                 var idUsuario = ObterUsuarioId();
 
                 if (!idUsuario.HasValue)
