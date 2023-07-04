@@ -14,9 +14,6 @@ export class NavMenuComponent {
   constructor(private _localStorageService: localStorageService){
 
     this.token = this._localStorageService.getToken();
-
-    
-    debugger
   }
 
   collapse() {
