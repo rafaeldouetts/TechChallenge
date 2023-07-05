@@ -112,18 +112,11 @@ namespace TechChallangeApi.Controllers
 
 		private Guid? ObterUsuarioId()
 		{
-            try
-            {
-				var usuarioId = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
+			var usuarioId = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
 
-				if (usuarioId == null) return null;
+			if (usuarioId == null) return null;
 
-				return new Guid(usuarioId);
-			}
-            catch (Exception)
-            {
-                return null;
-            }
+			return new Guid(usuarioId.Value);
 		}
 	}
 }

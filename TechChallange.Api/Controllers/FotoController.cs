@@ -57,7 +57,11 @@ namespace TechChallangeApi.Controllers
         [SwaggerOperation(Summary = "Salvar foto", Description = "Solicita a criação da foto no Storage e salva informações no DB")]
         public async Task<IActionResult> NewFoto(IFormFile formFile)
 		{
-            // Enviar a requisição e obter a resposta
+			var usuarioId = ObterUsuarioId();
+
+            if (usuarioId == null)
+                return Unauthorized();
+			// Enviar a requisição e obter a resposta
 
 			// Adicione o conteúdo do arquivo ao HttpContent
 			var fileContent = new StreamContent(formFile.OpenReadStream());
@@ -71,7 +75,7 @@ namespace TechChallangeApi.Controllers
 
             if (resultPost == null) return NoContent();
 
-            var fotoResult = await GetFoto(resultPost, fileContent);
+            var fotoResult = await GetFoto(resultPost, fileContent, usuarioId.Value);
 
 
 			if (fotoResult == null) return NoContent();
@@ -79,7 +83,7 @@ namespace TechChallangeApi.Controllers
 
         }
 
-        private async Task<Foto> GetFoto(string resultPost, StreamContent fileContent)
+        private async Task<Foto> GetFoto(string resultPost, StreamContent fileContent, Guid usuarioId)
         {
             try
             {
@@ -96,7 +100,7 @@ namespace TechChallangeApi.Controllers
 		    	string url = responseGetString.Substring(1, responseGetString.IndexOf('?'));
 				string extensao = Path.GetExtension(fileContent.Headers.ContentDisposition.FileName);
 
-	    		return await _fotoRepository.AddFoto(new Foto(true, url, extensao, obterUsuarioId()));
+				return await _fotoRepository.AddFoto(new Foto(true, url, extensao, usuarioId));
 			}
             catch (Exception e)
             {
@@ -130,13 +134,13 @@ namespace TechChallangeApi.Controllers
 			}
 		}
 
-        private Guid obterUsuarioId()
+        private Guid? ObterUsuarioId()
         {
             var usuarioId = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti);
 
             if (usuarioId == null) return null;
 
-			return new Guid(usuarioId);
+			return new Guid(usuarioId.Value);
 		}
 
         private void LogRaw(string title, string log, bool request = false)
