@@ -20,6 +20,9 @@ import { PublicacaoComponent } from './pages/Core/home/publicacao/publicacao.com
 import { AuthGuard } from './pages/Authentication/shared/auth.guard';
 import { ErrorRequestInterceptor } from './pages/Authentication/shared/Error.Interceptor';
 import { TokenInterceptor } from './pages/Authentication/shared/jwt.interceptor';
+import { ExibirParaNiveisDirective } from './shared/Directives/ExibirParaNiveisDirective';
+import { ConfirmacaoEmailComponent } from './pages/Authentication/confirmacao-email/confirmacao-email/confirmacao-email.component';
+// import { ExibirParaNiveisModule } from './shared/Directives/ExibirParaNiveisModule';
 
 @NgModule({
   declarations: [
@@ -30,10 +33,14 @@ import { TokenInterceptor } from './pages/Authentication/shared/jwt.interceptor'
     LoginComponent,
     NovaPublicacaoComponent,
     CreateAcountComponent,
-    PublicacaoComponent
+    PublicacaoComponent,
+    ExibirParaNiveisDirective,
+    ConfirmacaoEmailComponent
   ],
+  exports:[ExibirParaNiveisDirective],
   entryComponents:[NovaPublicacaoComponent],
   imports: [
+    // ExibirParaNiveisModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
@@ -42,11 +49,8 @@ import { TokenInterceptor } from './pages/Authentication/shared/jwt.interceptor'
     MatButtonModule,
     MatStepperModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full', children:[
-    ],
-    canActivate:[AuthGuard]
-
-  },
+      { path: '', component: HomeComponent, pathMatch: 'full', children:[], canActivate:[AuthGuard] },
+      { path: 'confirmar/:token', component: ConfirmacaoEmailComponent, pathMatch: 'full', children:[], canActivate:[AuthGuard] },
 
     {path: '', component: AuthenticationComponent},
     {path: '', redirectTo:'login', pathMatch: 'full'},
@@ -64,7 +68,7 @@ import { TokenInterceptor } from './pages/Authentication/shared/jwt.interceptor'
     MatInputModule,
     MatDialogModule,
     MatSlideToggleModule
-
+    
   ],
   providers: [localStorageService],
   bootstrap: [AppComponent]

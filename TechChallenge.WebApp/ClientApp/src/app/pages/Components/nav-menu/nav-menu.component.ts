@@ -1,5 +1,6 @@
 import { Token } from '@angular/compiler';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { localStorageService } from 'src/app/shared/localStorageService';
 
 @Component({
@@ -11,7 +12,7 @@ export class NavMenuComponent {
   isExpanded = false;
   token;
 
-  constructor(private _localStorageService: localStorageService){
+  constructor(private _localStorageService: localStorageService, private route: Router){
 
     this.token = this._localStorageService.getToken();
   }
@@ -26,8 +27,11 @@ export class NavMenuComponent {
 
 Sair()
 {
-  this._localStorageService.removerToken();
-  window.location.reload();
+  // this._localStorageService.removerToken();
+  // window.location.reload();
+
+  debugger
+  this.route.navigate(['/pessoa', 'dsadsdasd']);
 }
 
 }

@@ -91,7 +91,7 @@ public class AuthenticateController : ControllerBase
             //foreach (var userRole in userRoles)
             //    authClaims.Add(new(ClaimTypes.Role, userRole));
 
-            return Ok(new ResponseModel { Data = GetToken(authClaims, model.UserName) });
+            return Ok(new ResponseModel { Data = GetToken(authClaims, user) });
         }
 
         return Unauthorized();
@@ -103,8 +103,45 @@ public class AuthenticateController : ControllerBase
     [Authorize]
     public string GetAuthenticated() => $"Usuário autenticado: {User?.Identity?.Name} ";
 
+	[HttpPost]
+	[Route("disparar-confirmacao-email")]
+	public async Task<IActionResult> DispararConfirmacaoEmail()
+	{
+        var id = new Guid("0c9e9d7f-934d-4a09-8341-9e5bb94df9b9");
+        var nome = "teste3";
 
-    private TokenModel GetToken(List<Claim> authClaims, string nome)
+		var user = await _userManager.FindByNameAsync(nome);
+
+        if (user == null)
+            return BadRequest();
+
+		string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        var link = "http://localhost:4200/confirmar-email/" + code;
+
+        //enviar esse link via email.
+
+		return Ok(code);
+	}
+
+    [HttpPost]
+    [Route("confirmacao-email")]
+    public async Task<IActionResult> ConfirmacaoEmail(string tokenConfirmacao)
+	{
+		var id = new Guid("0c9e9d7f-934d-4a09-8341-9e5bb94df9b9");
+		var nome = "teste3";
+
+		var user = await _userManager.FindByNameAsync(nome);
+
+		if (user == null)
+			return BadRequest();
+
+        await _userManager.ConfirmEmailAsync(user, tokenConfirmacao);
+		
+		return Ok();
+	}
+
+	private TokenModel GetToken(List<Claim> authClaims, IdentityUser user)
     {
         //obtém a chave de assinatura do JWT
         var authSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
@@ -122,7 +159,7 @@ public class AuthenticateController : ControllerBase
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             ValidTo = token.ValidTo,
-            Nome = nome
+            Usuario = new Usuario(user.UserName, user.Email, new Guid(user.Id), user.EmailConfirmed)
         };
 
     }
@@ -157,6 +194,8 @@ public class AuthenticateController : ControllerBase
 
 		Log.Information(string.Format("Process: {0} Message: {1}", metodo, mensagem));
 	}
+
+
 
 
 	///TODO: Verificar se iremos utilizar roles

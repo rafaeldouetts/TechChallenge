@@ -5,6 +5,9 @@ import { localStorageService } from 'src/app/shared/localStorageService';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from '../shared/account.service';
+import { NivelPermissao } from 'src/app/models/enum/NivelPermissao';
+
+declare var gtag;
 
 @Component({
   selector: 'app-login',
@@ -17,6 +20,9 @@ export class LoginComponent implements OnInit {
     userName: new FormControl(''),
     password: new FormControl(''),
   });
+
+  public NivelPermissao = NivelPermissao;
+  
 
   constructor(public dialog: MatDialog, private title: Title, private _snackBar: MatSnackBar, private router: Router, private localStorageService: localStorageService, private accountService: AccountService) { }
 
@@ -37,6 +43,11 @@ export class LoginComponent implements OnInit {
 
   cadastrar()
   {
+    gtag('event', `BOTAO_CADASTRAR`, {
+      event_category: 'USUARIO',
+      event_label: 'Acompanhamento de intenção de cadastro'
+  });
+
     this.router.navigate(['create-account']);
   }
 }
