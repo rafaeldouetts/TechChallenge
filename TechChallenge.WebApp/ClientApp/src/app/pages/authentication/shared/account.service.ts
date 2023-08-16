@@ -9,9 +9,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = environment.baseUrl;
-  minimalUrl = environment.minimalUrl;
-  coreUrl = environment.baseCoreUrl;
+  // baseUrl = environment.baseUrl;
+
+  baseUrl = "";
+  minimalUrl = "";
+
+  // minimalUrl = environment.minimalUrl;
+  // coreUrl = environment.baseCoreUrl;
+  coreUrl = "";
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

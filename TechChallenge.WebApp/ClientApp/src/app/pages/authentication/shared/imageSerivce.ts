@@ -4,7 +4,9 @@ import { environment } from "src/environments/environment";
 
 export class ImageService
 {
-    baseUrl = environment.minimalUrl;
+    // baseUrl = environment.minimalUrl;
+
+    baseUrl = "";
     
     constructor(private http: HttpClient) { }
 

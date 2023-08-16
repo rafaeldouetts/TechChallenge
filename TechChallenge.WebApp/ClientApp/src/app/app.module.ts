@@ -37,7 +37,7 @@ import { ConfirmacaoEmailComponent } from './pages/Authentication/confirmacao-em
     ExibirParaNiveisDirective,
     ConfirmacaoEmailComponent
   ],
-  exports:[ExibirParaNiveisDirective],
+  exports:[ExibirParaNiveisDirective, ConfirmacaoEmailComponent],
   entryComponents:[NovaPublicacaoComponent],
   imports: [
     // ExibirParaNiveisModule,

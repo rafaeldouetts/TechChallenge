@@ -67,7 +67,7 @@
         <mat-step>
             <ng-template matStepLabel>Preview</ng-template>
             <app-publicacao *ngIf="Foto" [readonly]="true" [descricao]="descricao" [url]="Foto.url"></app-publicacao>
-            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedPublico">
+            <mat-slide-toggle class="example-margin" [checked]="checkedPublico">
                 publico
             </mat-slide-toggle>
 
